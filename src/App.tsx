@@ -85,10 +85,64 @@ function App() {
       return
     }
 
-    const handlePointerMove = (event: PointerEvent) => {
+    let animationFrame = 0
+    let targetX = 0
+    let targetY = 0
+    let currentX = 0
+    let currentY = 0
+    let targetScroll = 0
+    let currentScroll = 0
+
+    const setTargetsFromPoint = (clientX: number, clientY: number) => {
       const { innerWidth, innerHeight } = window
-      root.style.setProperty('--pointer-x', `${(event.clientX / innerWidth) * 100}%`)
-      root.style.setProperty('--pointer-y', `${(event.clientY / innerHeight) * 100}%`)
+      const normalizedX = clientX / innerWidth - 0.5
+      const normalizedY = clientY / innerHeight - 0.5
+
+      targetX = normalizedX
+      targetY = normalizedY
+
+      root.style.setProperty('--pointer-x', `${(clientX / innerWidth) * 100}%`)
+      root.style.setProperty('--pointer-y', `${(clientY / innerHeight) * 100}%`)
+    }
+
+    const handlePointerMove = (event: PointerEvent) => {
+      setTargetsFromPoint(event.clientX, event.clientY)
+    }
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      if (!touch) {
+        return
+      }
+
+      setTargetsFromPoint(touch.clientX, touch.clientY)
+    }
+
+    const handlePointerLeave = () => {
+      targetX = 0
+      targetY = 0
+      root.style.setProperty('--pointer-x', '50%')
+      root.style.setProperty('--pointer-y', '20%')
+    }
+
+    const handleScroll = () => {
+      const maxScroll = Math.max(
+        document.documentElement.scrollHeight - window.innerHeight,
+        1
+      )
+      targetScroll = window.scrollY / maxScroll
+    }
+
+    const animate = () => {
+      currentX += (targetX - currentX) * 0.08
+      currentY += (targetY - currentY) * 0.08
+      currentScroll += (targetScroll - currentScroll) * 0.08
+
+      root.style.setProperty('--motion-x', currentX.toFixed(4))
+      root.style.setProperty('--motion-y', currentY.toFixed(4))
+      root.style.setProperty('--scroll-progress', currentScroll.toFixed(4))
+
+      animationFrame = window.requestAnimationFrame(animate)
     }
 
     const revealTargets = Array.from(
@@ -110,17 +164,28 @@ function App() {
     )
 
     revealTargets.forEach((target) => observer.observe(target))
+    handleScroll()
+    animate()
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    window.addEventListener('pointerleave', handlePointerLeave)
+    window.addEventListener('touchmove', handleTouchMove, { passive: true })
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
       observer.disconnect()
+      window.cancelAnimationFrame(animationFrame)
       window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerleave', handlePointerLeave)
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
 
   return (
     <main className="page-shell" ref={rootRef}>
-      <div className="page-noise" aria-hidden="true" />
+      <div className="page-orb page-orb-a" aria-hidden="true" />
+      <div className="page-orb page-orb-b" aria-hidden="true" />
+      <div className="page-orb page-orb-c" aria-hidden="true" />
       <div className="page-spotlight" aria-hidden="true" />
 
       <section className="hero section-block" data-reveal>
