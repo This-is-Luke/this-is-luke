@@ -92,6 +92,7 @@ function App() {
     let currentY = 0
     let targetScroll = 0
     let currentScroll = 0
+    let tapTimeout = 0
 
     const setTargetsFromPoint = (clientX: number, clientY: number) => {
       const { innerWidth, innerHeight } = window
@@ -105,8 +106,27 @@ function App() {
       root.style.setProperty('--pointer-y', `${(clientY / innerHeight) * 100}%`)
     }
 
+    const triggerTapEffect = (clientX: number, clientY: number) => {
+      const { innerWidth, innerHeight } = window
+      root.style.setProperty('--tap-x', `${(clientX / innerWidth) * 100}%`)
+      root.style.setProperty('--tap-y', `${(clientY / innerHeight) * 100}%`)
+      root.classList.remove('is-tapping')
+      window.clearTimeout(tapTimeout)
+      window.requestAnimationFrame(() => {
+        root.classList.add('is-tapping')
+        tapTimeout = window.setTimeout(() => {
+          root.classList.remove('is-tapping')
+        }, 650)
+      })
+    }
+
     const handlePointerMove = (event: PointerEvent) => {
       setTargetsFromPoint(event.clientX, event.clientY)
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      setTargetsFromPoint(event.clientX, event.clientY)
+      triggerTapEffect(event.clientX, event.clientY)
     }
 
     const handleTouchMove = (event: TouchEvent) => {
@@ -116,6 +136,16 @@ function App() {
       }
 
       setTargetsFromPoint(touch.clientX, touch.clientY)
+    }
+
+    const handleTouchStart = (event: TouchEvent) => {
+      const touch = event.touches[0]
+      if (!touch) {
+        return
+      }
+
+      setTargetsFromPoint(touch.clientX, touch.clientY)
+      triggerTapEffect(touch.clientX, touch.clientY)
     }
 
     const handlePointerLeave = () => {
@@ -167,15 +197,20 @@ function App() {
     handleScroll()
     animate()
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true })
     window.addEventListener('pointerleave', handlePointerLeave)
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
     window.addEventListener('touchmove', handleTouchMove, { passive: true })
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
       observer.disconnect()
       window.cancelAnimationFrame(animationFrame)
+      window.clearTimeout(tapTimeout)
       window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerdown', handlePointerDown)
       window.removeEventListener('pointerleave', handlePointerLeave)
+      window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('scroll', handleScroll)
     }
@@ -183,10 +218,32 @@ function App() {
 
   return (
     <main className="page-shell" ref={rootRef}>
+      <div className="page-ripple" aria-hidden="true" />
       <div className="page-orb page-orb-a" aria-hidden="true" />
       <div className="page-orb page-orb-b" aria-hidden="true" />
       <div className="page-orb page-orb-c" aria-hidden="true" />
+      <div className="page-vector page-vector-a" aria-hidden="true" />
+      <div className="page-vector page-vector-b" aria-hidden="true" />
       <div className="page-spotlight" aria-hidden="true" />
+
+      <header className="top-nav section-block" data-reveal>
+        <a className="brand-mark" href="#top">
+          <span className="brand-dot" />
+          <span>Luke Prinsloo</span>
+        </a>
+        <nav className="nav-links" aria-label="Primary">
+          <a href="#experience">Experience</a>
+          <a href="#writing">Writing</a>
+          <a
+            href="https://www.linkedin.com/in/lukas-prinsloo-ai-native-cloud-engineer/"
+            target="_blank"
+            rel="noreferrer"
+            className="button button-nav"
+          >
+            Contact on LinkedIn
+          </a>
+        </nav>
+      </header>
 
       <section className="hero section-block" data-reveal>
         <div className="hero-meta">
@@ -209,8 +266,13 @@ function App() {
             </p>
 
             <div className="hero-actions">
-              <a href="mailto:hello@thisisluke.dev" className="button button-primary">
-                Start a conversation
+              <a
+                href="https://www.linkedin.com/in/lukas-prinsloo-ai-native-cloud-engineer/"
+                target="_blank"
+                rel="noreferrer"
+                className="button button-primary"
+              >
+                Connect on LinkedIn
               </a>
               <a href="#experience" className="button button-secondary">
                 View experience
@@ -293,7 +355,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section-block quote-layout" data-reveal>
+      <section className="section-block quote-layout" id="writing" data-reveal>
         <div className="section-copy">
           <p className="eyebrow">Writing</p>
           <h2>Fragments from the way I think.</h2>
@@ -342,8 +404,13 @@ function App() {
             and delivery without losing the bigger picture, let&apos;s talk.
           </p>
         </div>
-        <a href="mailto:hello@thisisluke.dev" className="button button-primary">
-          Contact Luke
+        <a
+          href="https://www.linkedin.com/in/lukas-prinsloo-ai-native-cloud-engineer/"
+          target="_blank"
+          rel="noreferrer"
+          className="button button-primary"
+        >
+          Connect on LinkedIn
         </a>
       </section>
     </main>
