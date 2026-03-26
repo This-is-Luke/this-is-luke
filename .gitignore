@@ -12,6 +12,7 @@ dist
 dist-ssr
 infra/dist
 infra/cdk.out
+infra/cdk.context.json
 *.local
 
 # Editor directories and files

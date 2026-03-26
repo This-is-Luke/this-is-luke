@@ -60,6 +60,7 @@ Notes:
 - `PORTFOLIO_DOMAIN_NAME` is the exact site host you want to serve, for example `thisisluke.dev`.
 - `PORTFOLIO_ZONE_NAME` is the Route 53 hosted zone to look up, usually the apex domain.
 - If you want both apex and `www`, the stack creates both alias records on the same distribution.
+- For `.dev`, Route 53 can host the DNS but Route 53 Domains does not support buying that TLD directly, so registration needs to happen at an external registrar first.
 
 ## AWS CLI commands you can run on the host
 

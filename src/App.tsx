@@ -1,60 +1,77 @@
 import './App.css'
 
+const profileOrbit = [
+  'Platform engineer',
+  'Neurodivergent',
+  'AI-native',
+  'Production-first',
+  'System thinker',
+]
+
 const principles = [
-  'Production-first engineering with a bias for shipping calmly under pressure.',
-  'AI-native workflows that multiply depth, speed, and practical execution.',
-  'Cloud systems built for reliability, visibility, and momentum.',
+  {
+    title: 'Architecture with pulse',
+    body: 'I like systems that feel intentional from both sides: elegant under the hood and clear at the surface.',
+  },
+  {
+    title: 'Operational calm',
+    body: 'I gravitate toward live environments, sharp feedback loops, and delivery that stays composed under pressure.',
+  },
+  {
+    title: 'Creative engineering',
+    body: 'Design, narrative, and technical judgment all belong in the same room. That tension is where good products sharpen.',
+  },
 ]
 
 const highlights = [
   {
-    label: 'Now',
-    title: 'Cloud Engineer at Inner Reality',
+    label: 'Current',
+    title: 'Platform Engineer at Inner Reality',
     description:
       'Owning delivery across QA, frontend, backend, and AWS serverless systems for a live gamified engagement platform.',
   },
   {
-    label: 'Edge',
-    title: 'Operational builder',
+    label: 'Bias',
+    title: 'Production-minded builder',
     description:
-      'Most at home where architecture, delivery pressure, and real users collide in production.',
+      'I like work with consequence: architecture, reliability, automation, and the kind of delivery cadence that teaches you fast.',
   },
   {
     label: 'Origin',
     title: 'Designer turned engineer',
     description:
-      'Started in visual craft, photography, and brand systems. That design instinct still shapes how products feel and how systems communicate.',
+      'I came through visual craft, photography, and brand systems, so interface, rhythm, and tone still matter deeply to how I build.',
   },
 ]
 
 const timeline = [
   {
     years: '2025 - now',
-    role: 'Cloud Engineer',
+    role: 'Platform Engineer',
     company: 'Inner Reality Limited',
     summary:
-      'Leads across frontend, QA, full-stack delivery, and AWS serverless infrastructure. Built campaign tooling, secure question orchestration, geolocation upgrades, and conversational integration patterns.',
+      'Driving platform delivery across frontend, QA, backend, and AWS serverless infrastructure. Built campaign tooling, secure question orchestration, geolocation upgrades, and conversational integration patterns.',
   },
   {
     years: '2024 - 2025',
     role: 'Frontend Developer',
     company: 'Inner Reality Limited',
     summary:
-      'Built production-ready UI systems from prototype to shipped experience, including brand customization flows and rapid delivery patterns the team adopted.',
+      'Built production-ready UI systems from prototype to shipped experience, including brand customisation flows and rapid delivery patterns the team adopted.',
   },
   {
     years: '2023 - 2025',
     role: 'Software QA Engineer',
     company: 'Inner Reality Limited',
     summary:
-      'Maintained core Python test infrastructure, supported Unity-integrated experiments, and built OpenSearch dashboards that made campaign analytics clearer to stakeholders.',
+      'Maintained core Python test infrastructure, supported Unity-linked experiments, and built analytics dashboards that gave stakeholders clearer operational visibility.',
   },
   {
     years: '2014 - 2023',
     role: 'Creative and independent builder',
     company: 'SelfieBox, freelance work, and career transition',
     summary:
-      'Worked across design, photography, branding, and self-directed technical growth before crossing fully into software engineering.',
+      'Worked across design, photography, branding, and self-directed technical growth before moving fully into engineering.',
   },
 ]
 
@@ -66,55 +83,90 @@ const writing = [
 
 const stats = [
   { value: '1,071', label: 'GitHub contributions in 2025' },
-  { value: '2+ yrs', label: 'Inner Reality journey across QA to cloud engineering' },
+  { value: '2+ yrs', label: 'Inner Reality journey from QA to platform engineering' },
   { value: '4', label: 'Core lanes: QA, frontend, backend, infrastructure' },
+]
+
+const searchSignals = [
+  'Based in Somerset West, working close to Cape Town and remote-first teams.',
+  'Building platform systems for South African and UK-facing product environments.',
+  'Best fit for teams that need a platform engineer who can cross frontend, backend, QA, and AWS.',
 ]
 
 function App() {
   return (
     <main className="page-shell">
-      <section className="hero">
-        <div className="hero-copy">
-          <p className="eyebrow">Luke Prinsloo</p>
-          <h1>
-            AI-native cloud engineering
-            <span>with a designer&apos;s eye and a production pulse.</span>
-          </h1>
-          <p className="lede">
-            I build systems where reliability, automation, and product velocity
-            meet. My path ran through design, QA, frontend, backend, and now
-            serverless cloud delivery, which means I care about the user
-            experience and the operational reality behind it.
-          </p>
-          <div className="hero-actions">
-            <a href="mailto:hello@thisisluke.dev" className="button primary">
-              Start a conversation
-            </a>
-            <a href="#work" className="button secondary">
-              Explore the work
-            </a>
+      <div className="ambient ambient-one" />
+      <div className="ambient ambient-two" />
+      <div className="ambient ambient-three" />
+
+      <section className="hero-panel">
+        <div className="hero-grid">
+          <div className="hero-copy">
+            <p className="eyebrow">Luke Prinsloo</p>
+            <h1>
+              Platform engineering
+              <span>for fast-moving systems with real-world weight.</span>
+            </h1>
+            <p className="lede">
+              I build at the intersection of infrastructure, product, and
+              creative judgment. My path ran through design, QA, frontend,
+              backend, and into AWS serverless platform work, so I care as much
+              about how a system feels as how it holds under pressure.
+            </p>
+
+            <div className="hero-actions">
+              <a href="mailto:hello@thisisluke.dev" className="button primary">
+                Start a conversation
+              </a>
+              <a href="#selected-work" className="button secondary">
+                See the profile
+              </a>
+            </div>
+
+            <div className="orbit-tags" aria-label="Profile tags">
+              {profileOrbit.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
           </div>
+
+          <aside className="hero-card" aria-label="Profile summary">
+            <div className="hero-card-top">
+              <p className="card-kicker">Current focus</p>
+              <p className="status-pill">Available for interesting work</p>
+            </div>
+            <h2>Platform Engineer | Neurodivergent | AI-Native</h2>
+            <ul>
+              <li>Somerset West, Western Cape, South Africa</li>
+              <li>AWS serverless architecture and platform delivery</li>
+              <li>Rapid prototyping with production instincts intact</li>
+            </ul>
+          </aside>
         </div>
-        <aside className="hero-card" aria-label="Profile summary">
-          <p className="card-kicker">Current focus</p>
-          <h2>Platform Engineer | Neurodivergent | AI-Native</h2>
-          <ul>
-            <li>Somerset West, Western Cape, South Africa</li>
-            <li>AWS serverless architecture and cloud delivery</li>
-            <li>Rapid prototyping with real production instincts</li>
-          </ul>
-        </aside>
+
+        <div className="hero-ribbon" aria-hidden="true">
+          <span>Architecture</span>
+          <span>Delivery</span>
+          <span>Judgment</span>
+          <span>Automation</span>
+          <span>Design Instinct</span>
+          <span>Architecture</span>
+          <span>Delivery</span>
+          <span>Judgment</span>
+        </div>
       </section>
 
       <section className="principles-grid" aria-label="Core principles">
         {principles.map((principle) => (
-          <article key={principle} className="principle-card">
-            <p>{principle}</p>
+          <article key={principle.title} className="principle-card">
+            <p className="highlight-label">{principle.title}</p>
+            <p>{principle.body}</p>
           </article>
         ))}
       </section>
 
-      <section className="section" id="work">
+      <section className="section" id="selected-work">
         <div className="section-heading">
           <p className="eyebrow">Selected profile</p>
           <h2>Built in motion, not in theory.</h2>
@@ -138,22 +190,22 @@ function App() {
         <div className="manifesto">
           <p>
             I like live environments, immediate feedback loops, and work that
-            has real stakes. I use AI and automation as force multipliers, but
-            the center of gravity is still judgment: architecture,
-            decomposition, tradeoffs, and knowing what needs to be resilient.
+            has consequence. AI and automation are force multipliers, but the
+            center of gravity is still judgment: architecture, decomposition,
+            tradeoffs, and knowing what actually needs to be resilient.
           </p>
           <p>
-            I came into engineering through quality, design, and sheer
-            curiosity. That makes me unusually comfortable translating between
-            user experience, implementation details, and platform realities.
+            Coming into engineering through quality and design made me
+            unusually comfortable translating between user experience,
+            implementation detail, and platform reality.
           </p>
         </div>
       </section>
 
-      <section className="section">
+      <section className="section section-stack">
         <div className="section-heading">
           <p className="eyebrow">Career arc</p>
-          <h2>A path from visual craft to cloud systems.</h2>
+          <h2>A path from visual craft to platform systems.</h2>
         </div>
         <div className="timeline">
           {timeline.map((entry) => (
@@ -194,14 +246,28 @@ function App() {
         ))}
       </section>
 
+      <section className="section seo-section" aria-labelledby="location-reach">
+        <div className="section-heading">
+          <p className="eyebrow">Location and reach</p>
+          <h2 id="location-reach">Based in Somerset West. Built for broader teams.</h2>
+        </div>
+        <div className="seo-grid">
+          {searchSignals.map((signal) => (
+            <article key={signal} className="seo-card">
+              <p>{signal}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="section closing-banner">
         <div>
-          <p className="eyebrow">Next pass</p>
-          <h2>This starts as a signal-rich launch page.</h2>
+          <p className="eyebrow">Signal</p>
+          <h2>Platform-minded, creatively wired, production-ready.</h2>
           <p>
-            The next iteration can add project case studies, screenshots,
-            writing, and a sharper visual identity once we decide the final
-            vibe together.
+            This is the sharper first impression. Next we can fold in your
+            screenshots, project case studies, and a more personal narrative
+            layer without losing the edge.
           </p>
         </div>
         <a href="mailto:hello@thisisluke.dev" className="button primary">

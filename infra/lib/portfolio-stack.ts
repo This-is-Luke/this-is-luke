@@ -13,7 +13,7 @@ import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment'
 import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets'
 import { BlockPublicAccess, Bucket, BucketEncryption } from 'aws-cdk-lib/aws-s3'
-import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager'
+import { DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager'
 import { Construct } from 'constructs'
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url))
@@ -35,7 +35,7 @@ export class PortfolioStack extends Stack {
       removalPolicy: RemovalPolicy.DESTROY,
     })
 
-    let certificate: Certificate | undefined
+    let certificate: DnsValidatedCertificate | undefined
     let aliases: string[] | undefined
     let hostedZone: ReturnType<typeof HostedZone.fromLookup> | undefined
 
@@ -46,10 +46,11 @@ export class PortfolioStack extends Stack {
 
       aliases = [props.siteDomainName, `www.${props.siteDomainName}`]
 
-      certificate = new Certificate(this, 'PortfolioCertificate', {
+      certificate = new DnsValidatedCertificate(this, 'PortfolioCertificate', {
         domainName: props.siteDomainName,
+        hostedZone,
+        region: 'us-east-1',
         subjectAlternativeNames: [`www.${props.siteDomainName}`],
-        validation: CertificateValidation.fromDns(hostedZone),
       })
     }
 
