@@ -1,0 +1,72 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    'Space Grotesk', 'Avenir Next', 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #f4f7fb;
+  background:
+    radial-gradient(circle at top, rgba(114, 255, 202, 0.12), transparent 24%),
+    radial-gradient(circle at 20% 20%, rgba(87, 145, 255, 0.12), transparent 18%),
+    linear-gradient(180deg, #050914, #090d16 24%, #04070d 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --text: #f4f7fb;
+  --muted: #8ea0bf;
+  --muted-strong: #c0cbe0;
+  --accent: #72ffca;
+  --border: rgba(183, 204, 237, 0.14);
+  --panel: linear-gradient(180deg, rgba(13, 19, 33, 0.92), rgba(8, 12, 22, 0.96));
+  --shadow-soft: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.4), transparent 88%);
+  pointer-events: none;
+}
+
+a {
+  color: inherit;
+}
+
+p,
+li,
+blockquote {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family:
+    'Space Grotesk', 'Satoshi', 'Avenir Next', sans-serif;
+  color: var(--text);
+}
+
+#root {
+  min-height: 100vh;
+}
