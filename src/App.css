@@ -9,7 +9,7 @@
   position: relative;
   width: min(1240px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 24px 0 110px;
+  padding: 34px 0 160px;
 }
 
 .page-ripple,
@@ -162,42 +162,7 @@
 .section-block {
   position: relative;
   z-index: 1;
-  margin-top: 42px;
-}
-
-.top-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-}
-
-.brand-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 600;
-}
-
-.brand-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #c4fff4, #91baff);
-  box-shadow: 0 0 18px rgba(145, 186, 255, 0.7);
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.nav-links > a:not(.button) {
-  color: var(--muted-strong);
-  text-decoration: none;
+  margin-top: 86px;
 }
 
 [data-reveal] {
@@ -226,7 +191,8 @@
 
 .hero {
   overflow: hidden;
-  padding: 36px;
+  min-height: min(88svh, 980px);
+  padding: 44px;
   border: 1px solid rgba(183, 204, 237, 0.11);
   border-radius: 36px;
   background:
@@ -279,7 +245,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.7fr);
   gap: 36px;
-  margin-top: 48px;
+  margin-top: 92px;
+  align-items: end;
 }
 
 .hero-copy h1 {
@@ -302,7 +269,7 @@
 
 .hero-lede {
   max-width: 58ch;
-  margin: 32px 0 0;
+  margin: 38px 0 0;
   font-size: 1.08rem;
   line-height: 1.72;
   color: var(--muted-strong);
@@ -312,7 +279,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 28px;
+  margin-top: 42px;
 }
 
 .button {
@@ -340,21 +307,7 @@
   color: #071015;
   background: linear-gradient(135deg, #c4fff4, #91baff 55%, #ffccd9);
   box-shadow: 0 16px 40px rgba(125, 163, 255, 0.16);
-}
-
-.button-secondary {
-  color: var(--text);
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.035);
-  backdrop-filter: blur(12px);
-}
-
-.button-nav {
-  min-height: 42px;
-  padding-inline: 16px;
-  color: #071015;
-  background: linear-gradient(135deg, rgba(196, 255, 244, 0.96), rgba(145, 186, 255, 0.92));
-  box-shadow: 0 14px 30px rgba(125, 163, 255, 0.14);
+  padding-inline: 24px;
 }
 
 .hero-panel,
@@ -395,8 +348,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 38px;
-  padding-top: 22px;
+  margin-top: 72px;
+  padding-top: 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -413,7 +366,7 @@
 .seo-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 26px;
 }
 
 .principle-card,
@@ -438,8 +391,28 @@
 .seo-layout {
   display: grid;
   grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
-  gap: 28px;
+  gap: 42px;
   align-items: start;
+}
+
+.feature-split {
+  margin-top: 130px;
+}
+
+.timeline-layout {
+  margin-top: 170px;
+}
+
+.quote-layout {
+  margin-top: 150px;
+}
+
+.seo-layout {
+  margin-top: 160px;
+}
+
+.section-anchor {
+  scroll-margin-top: 10vh;
 }
 
 .capability-stack,
@@ -517,7 +490,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 30px;
+  margin-top: 180px;
+  padding: 38px;
 }
 
 @keyframes breathe {
@@ -591,7 +565,7 @@
 @media (max-width: 980px) {
   .page-shell {
     width: min(100%, calc(100% - 24px));
-    padding-top: 14px;
+    padding-top: 18px;
   }
 
   .page-orb {
@@ -602,8 +576,6 @@
     opacity: 0.56;
   }
 
-  .top-nav,
-  .nav-links,
   .hero-grid,
   .feature-split,
   .timeline-layout,
@@ -612,8 +584,6 @@
   .timeline-card,
   .closing-card {
     grid-template-columns: 1fr;
-    flex-direction: column;
-    align-items: stretch;
   }
 
   .hero,
@@ -635,15 +605,16 @@
 
 @media (max-width: 640px) {
   .hero {
-    padding: 22px;
+    min-height: auto;
+    padding: 26px 22px;
   }
 
   .section-block {
-    margin-top: 28px;
+    margin-top: 56px;
   }
 
   .hero-grid {
-    margin-top: 26px;
+    margin-top: 48px;
     gap: 20px;
   }
 
@@ -652,7 +623,6 @@
     font-size: clamp(3rem, 15vw, 4.8rem);
   }
 
-  .nav-links,
   .hero-actions,
   .button,
   .tag-band {
@@ -661,10 +631,6 @@
 
   .button {
     width: 100%;
-  }
-
-  .nav-links > a:not(.button) {
-    padding: 2px 0;
   }
 
   .tag-band span {

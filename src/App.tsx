@@ -226,25 +226,6 @@ function App() {
       <div className="page-vector page-vector-b" aria-hidden="true" />
       <div className="page-spotlight" aria-hidden="true" />
 
-      <header className="top-nav section-block" data-reveal>
-        <a className="brand-mark" href="#top">
-          <span className="brand-dot" />
-          <span>Luke Prinsloo</span>
-        </a>
-        <nav className="nav-links" aria-label="Primary">
-          <a href="#experience">Experience</a>
-          <a href="#writing">Writing</a>
-          <a
-            href="https://www.linkedin.com/in/lukas-prinsloo-ai-native-cloud-engineer/"
-            target="_blank"
-            rel="noreferrer"
-            className="button button-nav"
-          >
-            Contact on LinkedIn
-          </a>
-        </nav>
-      </header>
-
       <section className="hero section-block" data-reveal>
         <div className="hero-meta">
           <p className="eyebrow">Luke Prinsloo</p>
@@ -266,16 +247,8 @@ function App() {
             </p>
 
             <div className="hero-actions">
-              <a
-                href="https://www.linkedin.com/in/lukas-prinsloo-ai-native-cloud-engineer/"
-                target="_blank"
-                rel="noreferrer"
-                className="button button-primary"
-              >
-                Connect on LinkedIn
-              </a>
-              <a href="#experience" className="button button-secondary">
-                View experience
+              <a href="#experience" className="button button-primary">
+                See the important bits
               </a>
             </div>
           </div>
@@ -328,7 +301,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section-block timeline-layout" id="experience" data-reveal>
+      <section className="section-block timeline-layout section-anchor" id="experience" data-reveal>
         <div className="section-copy">
           <p className="eyebrow">Experience</p>
           <h2>A path from visual craft to platform systems.</h2>
@@ -410,7 +383,7 @@ function App() {
           rel="noreferrer"
           className="button button-primary"
         >
-          Connect on LinkedIn
+          Contact on LinkedIn
         </a>
       </section>
     </main>
