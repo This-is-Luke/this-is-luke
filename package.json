@@ -9,9 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "infra:install": "pnpm --dir infra install",
-    "infra:build": "pnpm --dir infra build",
-    "infra:synth": "pnpm --dir infra synth",
-    "infra:deploy": "pnpm --dir infra deploy",
+    "infra:build": "pnpm --dir infra run build",
+    "infra:synth": "pnpm --dir infra run synth",
+    "infra:deploy": "pnpm --dir infra run deploy",
     "deploy": "pnpm build && pnpm infra:deploy"
   },
   "dependencies": {
