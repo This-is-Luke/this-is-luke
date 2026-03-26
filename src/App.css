@@ -167,15 +167,58 @@
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
+  filter: blur(10px);
+  transform:
+    perspective(1400px)
+    rotateX(-14deg)
+    skewY(1.2deg)
+    translateY(90px)
+    scale(0.965);
+  transform-origin: 50% 0%;
   transition:
-    opacity 700ms ease,
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 260ms ease,
+    filter 500ms ease,
+    transform 900ms cubic-bezier(0.2, 0.9, 0.22, 1.16);
+}
+
+[data-reveal]::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.04) 18%,
+      rgba(255, 255, 255, 0) 55%
+    );
+  opacity: 0.55;
+  transform-origin: top center;
+  transform: scaleY(1);
+  filter: blur(12px);
+  pointer-events: none;
+  transition:
+    opacity 520ms ease,
+    transform 820ms cubic-bezier(0.2, 0.9, 0.22, 1.1),
+    filter 520ms ease;
 }
 
 [data-reveal].is-visible {
   opacity: 1;
-  transform: translateY(0);
+  filter: blur(0);
+  transform:
+    perspective(1400px)
+    rotateX(0deg)
+    skewY(0deg)
+    translateY(0)
+    scale(1);
+}
+
+[data-reveal].is-visible::after {
+  opacity: 0;
+  transform: scaleY(0.18);
+  filter: blur(0);
 }
 
 .eyebrow,
@@ -543,8 +586,13 @@
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     opacity: 1;
+    filter: none;
     transform: none;
     transition: none;
+  }
+
+  [data-reveal]::after {
+    display: none;
   }
 
   .button,
