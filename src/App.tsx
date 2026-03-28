@@ -1,5 +1,5 @@
 import type { FormEvent } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 
 const introHighlights = [
@@ -93,56 +93,48 @@ const photographyGallery = [
     alt: 'A strawberry suspended in golden syrup against a pale background.',
     title: 'Still life study',
     meta: 'Object / Light / Texture',
-    variant: 'portrait-tall',
   },
   {
     src: '/photography/IMG_3994.JPG',
     alt: 'Black and white ceiling boards in strong perspective.',
     title: 'Quiet geometry',
     meta: 'Monochrome / Structure',
-    variant: 'landscape-wide',
   },
   {
     src: '/photography/Model%20prim%20selects-1.JPG',
     alt: 'Half portrait with red floral styling and dramatic makeup.',
     title: 'Styled portrait',
     meta: 'Portrait / Styling / Colour',
-    variant: 'portrait-tall',
   },
   {
     src: '/photography/_MG_9983.JPG',
     alt: 'Black and white portrait of a man in sunglasses and a heavy coat.',
     title: 'Studio contrast',
     meta: 'Portrait / Monochrome',
-    variant: 'portrait-tall',
   },
   {
     src: '/photography/_MG_8732.jpg',
-    alt: 'Portrait photography from Luke\u2019s archive.',
+    alt: 'Portrait photography from the archive.',
     title: 'Archive frame',
     meta: 'Portrait / Archive',
-    variant: 'square',
   },
   {
     src: '/photography/IMG_4924.JPG',
-    alt: 'Editorial style photograph from Luke\u2019s portfolio.',
+    alt: 'Editorial style photograph from the portfolio.',
     title: 'Editorial cut',
     meta: 'Fashion / Editorial',
-    variant: 'landscape-wide',
   },
   {
     src: '/photography/_MG_8848.jpg',
-    alt: 'Portrait photograph from Luke\u2019s archive portfolio.',
+    alt: 'Portrait photograph from the archive portfolio.',
     title: 'Light and gaze',
     meta: 'Portrait / Natural light',
-    variant: 'portrait-tall',
   },
   {
     src: '/photography/DPP_0042.JPG',
-    alt: 'Creative portrait image from Luke\u2019s older portfolio.',
+    alt: 'Creative portrait image from the older portfolio.',
     title: 'Older experiments',
     meta: 'Creative / Archive',
-    variant: 'square',
   },
 ]
 
@@ -163,6 +155,7 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isAssistantDocked, setIsAssistantDocked] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [carouselIndex, setCarouselIndex] = useState(0)
 
   useEffect(() => {
     const root = rootRef.current
@@ -180,6 +173,7 @@ function App() {
   const setModeAndResetView = (nextMode: SiteMode) => {
     setSiteMode(nextMode)
     setIsModalOpen(false)
+    setCarouselIndex(0)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -187,99 +181,37 @@ function App() {
     const normalized = question.toLowerCase()
 
     const photographyTerms = [
-      'photography',
-      'photographer',
-      'photograph',
-      'photogr',
-      'photo',
-      'photos',
-      'shots',
-      'gallery',
-      'creative',
-      'visual',
-      'portraits',
-      'portrait',
-      'editorial',
-      'archive',
-      'imagery',
-      'images',
-      'vibe',
-      'aesthetic',
-      'design side',
-      'creative side',
-      'visual side',
+      'photography', 'photographer', 'photograph', 'photogr', 'photo',
+      'photos', 'shots', 'gallery', 'creative', 'visual', 'portraits',
+      'portrait', 'editorial', 'archive', 'imagery', 'images', 'vibe',
+      'aesthetic', 'design side', 'creative side', 'visual side',
     ]
 
     const engineeringTerms = [
-      'engineering',
-      'engineer',
-      'platform',
-      'aws',
-      'software',
-      'dev',
-      'developer',
-      'systems',
-      'backend',
-      'frontend',
-      'qa',
-      'delivery',
+      'engineering', 'engineer', 'platform', 'aws', 'software', 'dev',
+      'developer', 'systems', 'backend', 'frontend', 'qa', 'delivery',
     ]
 
     const switchTerms = [
-      'show',
-      'switch',
-      'flip',
-      'toggle',
-      'open',
-      'change',
-      'view',
-      'look at',
-      'take me to',
-      'bring up',
-      'pull up',
-      'let me see',
-      'i want to see',
-      'show me',
-      'go to',
-      'reveal',
+      'show', 'switch', 'flip', 'toggle', 'open', 'change', 'view',
+      'look at', 'take me to', 'bring up', 'pull up', 'let me see',
+      'i want to see', 'show me', 'go to', 'reveal',
     ]
 
-    const mentionsPhotography = photographyTerms.some((term) =>
-      normalized.includes(term)
-    )
-    const mentionsEngineering = engineeringTerms.some((term) =>
-      normalized.includes(term)
-    )
-    const mentionsSwitch = switchTerms.some((term) => normalized.includes(term))
+    const mentionsPhotography = photographyTerms.some((t) => normalized.includes(t))
+    const mentionsEngineering = engineeringTerms.some((t) => normalized.includes(t))
+    const mentionsSwitch = switchTerms.some((t) => normalized.includes(t))
 
-    const wantsPhotography =
-      mentionsPhotography &&
-      (mentionsSwitch ||
-        normalized.includes('site') ||
-        normalized.includes('website') ||
-        normalized.includes('portfolio') ||
-        normalized.includes('mode') ||
-        normalized.includes('profile') ||
-        normalized.includes('creative background') ||
-        normalized.includes('photo background') ||
-        normalized.includes('look at my') ||
-        normalized.includes('show my') ||
-        normalized.includes('view my'))
+    const contextTerms = ['site', 'website', 'portfolio', 'mode', 'profile']
 
-    if (wantsPhotography) {
+    if (mentionsPhotography && (mentionsSwitch || contextTerms.some((t) => normalized.includes(t))
+      || normalized.includes('creative background') || normalized.includes('photo background')
+      || normalized.includes('look at my') || normalized.includes('show my')
+      || normalized.includes('view my'))) {
       return 'photography'
     }
 
-    const wantsEngineering =
-      mentionsEngineering &&
-      (mentionsSwitch ||
-        normalized.includes('site') ||
-        normalized.includes('website') ||
-        normalized.includes('portfolio') ||
-        normalized.includes('mode') ||
-        normalized.includes('profile'))
-
-    if (wantsEngineering) {
+    if (mentionsEngineering && (mentionsSwitch || contextTerms.some((t) => normalized.includes(t)))) {
       return 'engineer'
     }
 
@@ -322,9 +254,7 @@ function App() {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
+        headers: { 'content-type': 'application/json' },
         credentials: 'same-origin',
         body: JSON.stringify({ message: question }),
       })
@@ -356,119 +286,25 @@ function App() {
     }
   }
 
+  const goToSlide = useCallback((index: number) => {
+    const total = photographyGallery.length
+    setCarouselIndex(((index % total) + total) % total)
+  }, [])
+
   useEffect(() => {
-    const root = rootRef.current
-    if (!root) {
-      return
-    }
-
-    let targetX = 0
-    let targetY = 0
-    let currentX = 0
-    let currentY = 0
-    let tapTimeout = 0
-
-    const setTargetsFromPoint = (clientX: number, clientY: number) => {
-      const { innerWidth, innerHeight } = window
-      const normalizedX = clientX / innerWidth - 0.5
-      const normalizedY = clientY / innerHeight - 0.5
-
-      targetX = normalizedX
-      targetY = normalizedY
-
-      root.style.setProperty('--pointer-x', `${(clientX / innerWidth) * 100}%`)
-      root.style.setProperty('--pointer-y', `${(clientY / innerHeight) * 100}%`)
-    }
-
-    const triggerTapEffect = (clientX: number, clientY: number) => {
-      const { innerWidth, innerHeight } = window
-      root.style.setProperty('--tap-x', `${(clientX / innerWidth) * 100}%`)
-      root.style.setProperty('--tap-y', `${(clientY / innerHeight) * 100}%`)
-      root.classList.remove('is-tapping')
-      window.clearTimeout(tapTimeout)
-      window.requestAnimationFrame(() => {
-        root.classList.add('is-tapping')
-        tapTimeout = window.setTimeout(() => {
-          root.classList.remove('is-tapping')
-        }, 720)
-      })
-    }
-
-    const handlePointerMove = (event: PointerEvent) => {
-      setTargetsFromPoint(event.clientX, event.clientY)
-    }
-
-    const handlePointerDown = (event: PointerEvent) => {
-      setTargetsFromPoint(event.clientX, event.clientY)
-      triggerTapEffect(event.clientX, event.clientY)
-    }
-
-    const handleTouchMove = (event: TouchEvent) => {
-      const touch = event.touches[0]
-      if (!touch) {
-        return
-      }
-
-      setTargetsFromPoint(touch.clientX, touch.clientY)
-    }
-
-    const handleTouchStart = (event: TouchEvent) => {
-      const touch = event.touches[0]
-      if (!touch) {
-        return
-      }
-
-      setTargetsFromPoint(touch.clientX, touch.clientY)
-      triggerTapEffect(touch.clientX, touch.clientY)
-    }
-
-    const handlePointerLeave = () => {
-      targetX = 0
-      targetY = 0
-      root.style.setProperty('--pointer-x', '50%')
-      root.style.setProperty('--pointer-y', '16%')
-    }
-
     const handleScroll = () => {
       const shouldDock = window.scrollY > window.innerHeight * 0.72
       setIsAssistantDocked((current) =>
         current === shouldDock ? current : shouldDock
       )
-
       if (!shouldDock) {
         setIsModalOpen(false)
       }
     }
 
-    let rafId = 0
-    const animate = () => {
-      currentX += (targetX - currentX) * 0.06
-      currentY += (targetY - currentY) * 0.06
-
-      root.style.setProperty('--motion-x', currentX.toFixed(4))
-      root.style.setProperty('--motion-y', currentY.toFixed(4))
-      rafId = requestAnimationFrame(animate)
-    }
-
     handleScroll()
-    rafId = requestAnimationFrame(animate)
-    window.addEventListener('pointermove', handlePointerMove, { passive: true })
-    window.addEventListener('pointerdown', handlePointerDown, { passive: true })
-    window.addEventListener('pointerleave', handlePointerLeave)
-    window.addEventListener('touchstart', handleTouchStart, { passive: true })
-    window.addEventListener('touchmove', handleTouchMove, { passive: true })
     window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => {
-      cancelAnimationFrame(rafId)
-      window.clearTimeout(tapTimeout)
-      window.removeEventListener('pointermove', handlePointerMove)
-      window.removeEventListener('pointerdown', handlePointerDown)
-      window.removeEventListener('pointerleave', handlePointerLeave)
-      window.removeEventListener('touchstart', handleTouchStart)
-      window.removeEventListener('touchmove', handleTouchMove)
-      window.removeEventListener('scroll', handleScroll)
-    }
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const renderChatShell = (className: string, mode: 'stage' | 'modal') => (
@@ -686,29 +522,70 @@ function App() {
         </div>
       </section>
 
-      <section className="section-block photo-gallery-layout">
+      <section className="section-block photo-carousel-layout">
         <div className="section-copy">
           <p className="eyebrow">Selected frames</p>
           <h2>An editorial cut from the archive.</h2>
           <p>
-            A few older images to establish the visual side of Luke's work
-            before the engineering profile took center stage.
+            A few older images to establish the visual side before the
+            engineering profile took center stage.
           </p>
         </div>
 
-        <div className="photo-gallery" aria-label="Photography portfolio">
-          {photographyGallery.map((item) => (
-            <figure
-              key={item.src}
-              className={`photo-card photo-card-${item.variant}`}
+        <div className="photo-carousel" aria-label="Photography portfolio">
+          <div className="photo-carousel-track">
+            {photographyGallery.map((item, index) => (
+              <figure
+                key={item.src}
+                className={`photo-carousel-slide ${index === carouselIndex ? 'is-active' : ''}`}
+              >
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  loading={index < 2 ? 'eager' : 'lazy'}
+                />
+                <figcaption>
+                  <span className="photo-slide-title">{item.title}</span>
+                  <span className="photo-slide-meta">{item.meta}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <div className="photo-carousel-nav">
+            <button
+              type="button"
+              className="photo-carousel-btn"
+              onClick={() => goToSlide(carouselIndex - 1)}
+              aria-label="Previous image"
             >
-              <img src={item.src} alt={item.alt} loading="lazy" />
-              <figcaption>
-                <span>{item.title}</span>
-                <span>{item.meta}</span>
-              </figcaption>
-            </figure>
-          ))}
+              &#8592;
+            </button>
+            <button
+              type="button"
+              className="photo-carousel-btn"
+              onClick={() => goToSlide(carouselIndex + 1)}
+              aria-label="Next image"
+            >
+              &#8594;
+            </button>
+          </div>
+
+          <span className="photo-carousel-counter">
+            {String(carouselIndex + 1).padStart(2, '0')} / {String(photographyGallery.length).padStart(2, '0')}
+          </span>
+
+          <div className="photo-carousel-dots">
+            {photographyGallery.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`photo-carousel-dot ${index === carouselIndex ? 'is-active' : ''}`}
+                onClick={() => goToSlide(index)}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -735,17 +612,13 @@ function App() {
 
   return (
     <main className="page-shell" ref={rootRef}>
-      <div className="page-ripple" aria-hidden="true" />
-      <div className="page-haze page-haze-a" aria-hidden="true" />
-      <div className="page-haze page-haze-b" aria-hidden="true" />
-      <div className="page-haze page-haze-c" aria-hidden="true" />
-      <div className="page-line page-line-a" aria-hidden="true" />
-      <div className="page-line page-line-b" aria-hidden="true" />
-      <div className="page-spotlight" aria-hidden="true" />
-
       <section className="ask-stage">
         <p className="ask-stage-label">luke's agent is online</p>
         {renderChatShell('ask-shell', 'stage')}
+        <div className="scroll-hint" aria-hidden="true">
+          <span>scroll</span>
+          <span className="scroll-hint-line" />
+        </div>
       </section>
 
       <div className="content-stack">
