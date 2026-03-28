@@ -73,7 +73,7 @@ export class PortfolioStack extends Stack {
         MODEL_REGION: process.env.LUKE_AI_MODEL_REGION ?? 'eu-west-1',
         QUOTA_TABLE_NAME: quotaTable.tableName,
         SESSION_HOURLY_LIMIT:
-          process.env.LUKE_AI_SESSION_HOURLY_LIMIT ?? '10',
+          process.env.LUKE_AI_SESSION_HOURLY_LIMIT ?? '40',
       },
     })
 
