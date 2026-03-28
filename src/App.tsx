@@ -1,83 +1,168 @@
-import { useEffect, useRef } from 'react'
+import type { FormEvent } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
-const heroTags = [
+const introHighlights = [
   'Platform Engineer',
-  'Production First',
+  'Somerset West, ZA',
+  'Neurodivergent',
   'AI-Augmented',
-  'Full Stack',
-  'Frontend',
-  'Backend',
-  'AWS',
 ]
 
-const principles = [
+const importantBits = [
   {
-    title: 'Production first',
-    body: 'I am most comfortable where delivery has real stakes: live systems, operational clarity, and software that has to keep working.',
+    title: 'Platform-minded delivery',
+    body: 'I work where product, reliability, automation, and developer experience meet, usually across frontend, backend, and AWS serverless systems.',
   },
   {
-    title: 'Outcome-based engineering',
-    body: 'I work across the stack when the outcome calls for it, from UX and frontend implementation through backend services and cloud infrastructure.',
+    title: 'Rooted in production',
+    body: 'My best work happens in live environments where quality matters, timelines are real, and the feedback loop is immediate.',
   },
   {
-    title: 'AI-augmented execution',
-    body: 'I use AI and automation to accelerate research, prototyping, and delivery, while keeping architecture, judgment, and quality at the center.',
+    title: 'Creative systems thinking',
+    body: 'Design, photography, QA, and engineering all fed the same instinct: reduce friction, make the thing clearer, and ship with intention.',
   },
 ]
 
-const capabilityRows = [
-  'Platform engineering with AWS serverless delivery and operational awareness',
-  'Frontend systems shaped by a design background and product instincts',
-  'Backend services, automation, and QA-rooted reliability practices',
-  'Rapid prototyping and problem solving with AI as a force multiplier',
-]
-
-const timeline = [
+const selectedWork = [
   {
-    years: 'Now',
-    role: 'Platform Engineer',
-    company: 'Inner Reality Limited',
+    title: 'Campaign Creator',
     summary:
-      'Owning delivery across QA, frontend, backend, and AWS infrastructure for Inner Reality’s live gamified customer engagement platform.',
+      'Co-designed and delivered a self-service campaign builder for branded gamified experiences, with customisation flows, asset control, and reusable templates.',
+    meta: 'Product systems / Frontend / Delivery',
   },
   {
-    years: '2024 - now',
-    role: 'Frontend Developer',
-    company: 'Inner Reality Limited',
+    title: 'Question Orchestration Service',
     summary:
-      'Built the Campaign Creator UI from prototype to production, including brand customisation flows, interactive preview systems, and production-ready forms.',
+      'Moved quiz logic out of the client and into a secure backend service with S3-backed question delivery, server-side validation, and per-campaign configuration.',
+    meta: 'Backend / Reliability / AWS',
   },
   {
-    years: '2023 - 2025',
-    role: 'Software QA Engineer',
-    company: 'Inner Reality Limited',
+    title: 'WhatsApp integration architecture',
     summary:
-      'Built and maintained Python test infrastructure, supported product experimentation, and created analytics visibility that still shapes how I engineer today.',
+      'Designed the conversational routing model for Infobip-based WhatsApp flows, including session correlation, webhook routing, and capability exposure patterns.',
+    meta: 'Architecture / Integrations / Scale',
   },
   {
-    years: 'Before tech',
-    role: 'Design, photography, and self-directed learning',
-    company: 'Freelance, SelfieBox, and independent study',
+    title: 'Geo-aware campaign delivery',
     summary:
-      'My earlier career was built in creative work, client delivery, and self-education, which is why visual clarity and communication still matter in my engineering.',
+      'Implemented region-aware geolocation behaviour so campaigns could respond accurately to boundaries, rules, and location-gated experiences.',
+    meta: 'Platform / Data / Operational clarity',
   },
 ]
 
-const writing = [
-  'The engineering disciplines were always creative acts buried under a mountain of friction.',
-  'AI helps collapse that gap. Suddenly directions you would never have taken become worth trying.',
-  'These machines will forever have human hearts.',
+const writingFragments = [
+  {
+    title: 'Engineering is still a creative act',
+    body: 'Architecture, decomposition, and judgment still matter. The tools move faster now, but the craft is still in how you shape the system.',
+  },
+  {
+    title: 'AI should expand the map',
+    body: 'The real unlock is not hype. It is lowering the cost of trying good ideas, so engineers can think bigger and test directions that were previously too expensive.',
+  },
+  {
+    title: 'Human intent stays central',
+    body: 'These machines are useful because people bring taste, care, and responsibility to them. The technology is leverage, not the point.',
+  },
 ]
 
-const searchSignals = [
-  'Based in Somerset West, near Cape Town, and comfortable in remote-first and distributed teams.',
-  'Best fit for teams that need a platform-minded engineer who can think across product, delivery, reliability, and implementation.',
-  'Experienced in South African and UK-facing environments where feedback loops are fast and production quality matters.',
+const reachNotes = [
+  'Based in Somerset West in the Western Cape, near Cape Town.',
+  'Comfortable with remote-first teams across South Africa, the UK, and distributed product environments.',
+  'Strong fit for teams looking for a platform engineer who can move between delivery, systems thinking, and implementation.',
 ]
+
+const photographyHighlights = [
+  {
+    title: 'Portraits with intent',
+    body: 'A lot of the older work sits close to expression, styling, and framing. The goal was never noise. It was presence.',
+  },
+  {
+    title: 'Commercial eye, human center',
+    body: 'Design and client work trained the photography too: shape the scene, respect the subject, and keep the image readable.',
+  },
+  {
+    title: 'Minimal, immediate, tactile',
+    body: 'The photography mode is built like a pared-back portfolio. Less interface, more image, just enough framing to let the work breathe.',
+  },
+]
+
+const photographyGallery = [
+  {
+    src: '/photography/_MG_0498.JPG',
+    alt: 'A strawberry suspended in golden syrup against a pale background.',
+    title: 'Still life study',
+    meta: 'Object / Light / Texture',
+    variant: 'portrait-tall',
+  },
+  {
+    src: '/photography/IMG_3994.JPG',
+    alt: 'Black and white ceiling boards in strong perspective.',
+    title: 'Quiet geometry',
+    meta: 'Monochrome / Structure',
+    variant: 'landscape-wide',
+  },
+  {
+    src: '/photography/Model%20prim%20selects-1.JPG',
+    alt: 'Half portrait with red floral styling and dramatic makeup.',
+    title: 'Styled portrait',
+    meta: 'Portrait / Styling / Colour',
+    variant: 'portrait-tall',
+  },
+  {
+    src: '/photography/_MG_9983.JPG',
+    alt: 'Black and white portrait of a man in sunglasses and a heavy coat.',
+    title: 'Studio contrast',
+    meta: 'Portrait / Monochrome',
+    variant: 'portrait-tall',
+  },
+  {
+    src: '/photography/_MG_8732.jpg',
+    alt: 'Portrait photography from Luke\u2019s archive.',
+    title: 'Archive frame',
+    meta: 'Portrait / Archive',
+    variant: 'square',
+  },
+  {
+    src: '/photography/IMG_4924.JPG',
+    alt: 'Editorial style photograph from Luke\u2019s portfolio.',
+    title: 'Editorial cut',
+    meta: 'Fashion / Editorial',
+    variant: 'landscape-wide',
+  },
+  {
+    src: '/photography/_MG_8848.jpg',
+    alt: 'Portrait photograph from Luke\u2019s archive portfolio.',
+    title: 'Light and gaze',
+    meta: 'Portrait / Natural light',
+    variant: 'portrait-tall',
+  },
+  {
+    src: '/photography/DPP_0042.JPG',
+    alt: 'Creative portrait image from Luke\u2019s older portfolio.',
+    title: 'Older experiments',
+    meta: 'Creative / Archive',
+    variant: 'square',
+  },
+]
+
+type SiteMode = 'engineer' | 'photography'
+
+type ChatMessage = {
+  role: 'assistant' | 'user'
+  text: string
+}
+
+const initialMessages: ChatMessage[] = []
 
 function App() {
   const rootRef = useRef<HTMLElement | null>(null)
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
+  const [draft, setDraft] = useState('')
+  const [siteMode, setSiteMode] = useState<SiteMode>('engineer')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isAssistantDocked, setIsAssistantDocked] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     const root = rootRef.current
@@ -85,13 +170,202 @@ function App() {
       return
     }
 
-    let animationFrame = 0
+    window.requestAnimationFrame(() => {
+      root.querySelectorAll<HTMLElement>('.chat-window').forEach((node) => {
+        node.scrollTop = node.scrollHeight
+      })
+    })
+  }, [messages, isSubmitting, isModalOpen])
+
+  const setModeAndResetView = (nextMode: SiteMode) => {
+    setSiteMode(nextMode)
+    setIsModalOpen(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const detectSiteModeRequest = (question: string): SiteMode | null => {
+    const normalized = question.toLowerCase()
+
+    const photographyTerms = [
+      'photography',
+      'photographer',
+      'photograph',
+      'photogr',
+      'photo',
+      'photos',
+      'shots',
+      'gallery',
+      'creative',
+      'visual',
+      'portraits',
+      'portrait',
+      'editorial',
+      'archive',
+      'imagery',
+      'images',
+      'vibe',
+      'aesthetic',
+      'design side',
+      'creative side',
+      'visual side',
+    ]
+
+    const engineeringTerms = [
+      'engineering',
+      'engineer',
+      'platform',
+      'aws',
+      'software',
+      'dev',
+      'developer',
+      'systems',
+      'backend',
+      'frontend',
+      'qa',
+      'delivery',
+    ]
+
+    const switchTerms = [
+      'show',
+      'switch',
+      'flip',
+      'toggle',
+      'open',
+      'change',
+      'view',
+      'look at',
+      'take me to',
+      'bring up',
+      'pull up',
+      'let me see',
+      'i want to see',
+      'show me',
+      'go to',
+      'reveal',
+    ]
+
+    const mentionsPhotography = photographyTerms.some((term) =>
+      normalized.includes(term)
+    )
+    const mentionsEngineering = engineeringTerms.some((term) =>
+      normalized.includes(term)
+    )
+    const mentionsSwitch = switchTerms.some((term) => normalized.includes(term))
+
+    const wantsPhotography =
+      mentionsPhotography &&
+      (mentionsSwitch ||
+        normalized.includes('site') ||
+        normalized.includes('website') ||
+        normalized.includes('portfolio') ||
+        normalized.includes('mode') ||
+        normalized.includes('profile') ||
+        normalized.includes('creative background') ||
+        normalized.includes('photo background') ||
+        normalized.includes('look at my') ||
+        normalized.includes('show my') ||
+        normalized.includes('view my'))
+
+    if (wantsPhotography) {
+      return 'photography'
+    }
+
+    const wantsEngineering =
+      mentionsEngineering &&
+      (mentionsSwitch ||
+        normalized.includes('site') ||
+        normalized.includes('website') ||
+        normalized.includes('portfolio') ||
+        normalized.includes('mode') ||
+        normalized.includes('profile'))
+
+    if (wantsEngineering) {
+      return 'engineer'
+    }
+
+    return null
+  }
+
+  const handleChatSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const question = draft.trim()
+    if (!question) {
+      return
+    }
+
+    const requestedMode = detectSiteModeRequest(question)
+
+    setMessages((current) => [...current, { role: 'user', text: question }])
+    setDraft('')
+
+    if (requestedMode) {
+      const reply =
+        requestedMode === siteMode
+          ? requestedMode === 'photography'
+            ? 'Photography mode is already live. Scroll down.'
+            : 'The engineering profile is already live. Scroll down.'
+          : requestedMode === 'photography'
+            ? 'Photography mode is ready. Scroll down.'
+            : 'Engineering mode is back. Scroll down.'
+
+      setModeAndResetView(requestedMode)
+      setMessages((current) => [
+        ...current,
+        { role: 'assistant', text: reply },
+      ])
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({ message: question }),
+      })
+
+      const payload = (await response.json()) as {
+        reply?: string
+        error?: string
+      }
+
+      const reply =
+        payload.reply ??
+        payload.error ??
+        'The assistant is not available right now. Please try again shortly.'
+
+      setMessages((current) => [
+        ...current,
+        { role: 'assistant', text: reply },
+      ])
+    } catch {
+      setMessages((current) => [
+        ...current,
+        {
+          role: 'assistant',
+          text: 'The hosted assistant is waking up right now. Please try again in a moment.',
+        },
+      ])
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) {
+      return
+    }
+
     let targetX = 0
     let targetY = 0
     let currentX = 0
     let currentY = 0
-    let targetScroll = 0
-    let currentScroll = 0
     let tapTimeout = 0
 
     const setTargetsFromPoint = (clientX: number, clientY: number) => {
@@ -116,7 +390,7 @@ function App() {
         root.classList.add('is-tapping')
         tapTimeout = window.setTimeout(() => {
           root.classList.remove('is-tapping')
-        }, 650)
+        }, 720)
       })
     }
 
@@ -152,50 +426,32 @@ function App() {
       targetX = 0
       targetY = 0
       root.style.setProperty('--pointer-x', '50%')
-      root.style.setProperty('--pointer-y', '20%')
+      root.style.setProperty('--pointer-y', '16%')
     }
 
     const handleScroll = () => {
-      const maxScroll = Math.max(
-        document.documentElement.scrollHeight - window.innerHeight,
-        1
+      const shouldDock = window.scrollY > window.innerHeight * 0.72
+      setIsAssistantDocked((current) =>
+        current === shouldDock ? current : shouldDock
       )
-      targetScroll = window.scrollY / maxScroll
+
+      if (!shouldDock) {
+        setIsModalOpen(false)
+      }
     }
 
+    let rafId = 0
     const animate = () => {
-      currentX += (targetX - currentX) * 0.08
-      currentY += (targetY - currentY) * 0.08
-      currentScroll += (targetScroll - currentScroll) * 0.08
+      currentX += (targetX - currentX) * 0.06
+      currentY += (targetY - currentY) * 0.06
 
       root.style.setProperty('--motion-x', currentX.toFixed(4))
       root.style.setProperty('--motion-y', currentY.toFixed(4))
-      root.style.setProperty('--scroll-progress', currentScroll.toFixed(4))
-
-      animationFrame = window.requestAnimationFrame(animate)
+      rafId = requestAnimationFrame(animate)
     }
 
-    const revealTargets = Array.from(
-      root.querySelectorAll<HTMLElement>('[data-reveal]')
-    )
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-          }
-        }
-      },
-      {
-        threshold: 0.16,
-        rootMargin: '0px 0px -8% 0px',
-      }
-    )
-
-    revealTargets.forEach((target) => observer.observe(target))
     handleScroll()
-    animate()
+    rafId = requestAnimationFrame(animate)
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
     window.addEventListener('pointerdown', handlePointerDown, { passive: true })
     window.addEventListener('pointerleave', handlePointerLeave)
@@ -204,8 +460,7 @@ function App() {
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      observer.disconnect()
-      window.cancelAnimationFrame(animationFrame)
+      cancelAnimationFrame(rafId)
       window.clearTimeout(tapTimeout)
       window.removeEventListener('pointermove', handlePointerMove)
       window.removeEventListener('pointerdown', handlePointerDown)
@@ -216,165 +471,254 @@ function App() {
     }
   }, [])
 
-  return (
-    <main className="page-shell" ref={rootRef}>
-      <div className="page-ripple" aria-hidden="true" />
-      <div className="page-orb page-orb-a" aria-hidden="true" />
-      <div className="page-orb page-orb-b" aria-hidden="true" />
-      <div className="page-orb page-orb-c" aria-hidden="true" />
-      <div className="page-vector page-vector-a" aria-hidden="true" />
-      <div className="page-vector page-vector-b" aria-hidden="true" />
-      <div className="page-spotlight" aria-hidden="true" />
+  const renderChatShell = (className: string, mode: 'stage' | 'modal') => (
+    <form className={className} onSubmit={handleChatSubmit}>
+      <label className="ask-label" htmlFor={`${mode}-ask-luke`}>
+        ask luke's agent anything
+      </label>
 
-      <section className="hero section-block" data-reveal>
-        <div className="hero-meta">
-          <p className="eyebrow">Luke Prinsloo</p>
-          <p className="status-line">Somerset West, Western Cape, South Africa</p>
+      {messages.length > 0 || isSubmitting ? (
+        <div className="chat-window" aria-live="polite">
+          {messages.map((message, index) => (
+            <article
+              key={`${mode}-${message.role}-${index}`}
+              className={`chat-bubble chat-bubble-${message.role}`}
+            >
+              <p>{message.text}</p>
+            </article>
+          ))}
+          {isSubmitting ? (
+            <article className="chat-bubble chat-bubble-assistant chat-bubble-pending">
+              <p>Thinking</p>
+            </article>
+          ) : null}
         </div>
+      ) : null}
 
-        <div className="hero-grid">
-          <div className="hero-copy">
-            <h1>
-              Platform engineering,
-              <span>shaped by quality, delivery, and a designer’s eye.</span>
-            </h1>
-            <p className="hero-lede">
-              I am an engineer shaped by quality and production, now
-              gravitating toward platform work where reliability, automation,
-              and delivery meet. My path ran through design, QA, frontend,
-              backend, and cloud, which lets me work comfortably across the
-              stack without losing sight of the outcome.
+      <input
+        id={`${mode}-ask-luke`}
+        className="ask-input"
+        type="text"
+        name="ask-luke"
+        placeholder="who is luke? / show me photography / what does he build?"
+        autoComplete="off"
+        value={draft}
+        disabled={isSubmitting}
+        onChange={(event) => setDraft(event.target.value)}
+      />
+    </form>
+  )
+
+  const renderEngineerContent = () => (
+    <>
+      <section className="welcome section-block">
+        <div className="welcome-shell">
+          <div className="welcome-copy">
+            <p className="eyebrow">Luke Prinsloo</p>
+            <p className="location-line">
+              Platform Engineer / Somerset West / Western Cape / South Africa
             </p>
-
-            <div className="hero-actions">
-              <a href="#experience" className="button button-primary">
-                See the important bits
-              </a>
-            </div>
+            <h1>
+              Platform systems,
+              <span>
+                clear thinking, and delivery that holds up in production.
+              </span>
+            </h1>
+            <p className="welcome-lede">
+              I work across frontend, backend, QA-rooted reliability, AWS
+              serverless systems, and AI-augmented delivery. The through-line
+              is always the same: reduce friction, build with intent, and keep
+              the outcome clear for the people shipping on top of it.
+            </p>
           </div>
 
-          <aside className="hero-panel">
-            <p className="panel-label">Current focus</p>
-            <h2>Platform Engineer | Neurodivergent | AI-Native</h2>
+          <aside className="welcome-panel">
+            <p className="panel-label">Current shape</p>
+            <h2>Platform Engineer</h2>
             <p>
-              Broad hands-on delivery across product systems, cloud
-              infrastructure, and live production environments, with AI and
-              automation integrated into the daily workflow.
+              Production first, systems minded, and comfortable moving across
+              product delivery, cloud infrastructure, and developer experience.
             </p>
+
+            <div className="tag-band" aria-label="Core themes">
+              {introHighlights.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
           </aside>
         </div>
-
-        <div className="tag-band" aria-label="Core themes">
-          {heroTags.map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </div>
       </section>
 
-      <section className="section-block principles-grid" data-reveal>
-        {principles.map((principle) => (
-          <article key={principle.title} className="soft-card principle-card">
-            <p className="card-label">{principle.title}</p>
-            <p>{principle.body}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="section-block feature-split" data-reveal>
-        <div className="feature-intro">
-          <p className="eyebrow">How I work</p>
-          <h2>Built for fast-moving teams that still care about quality.</h2>
+      <section
+        className="section-block section-anchor important-layout"
+        id="important-bits"
+      >
+        <div className="section-copy">
+          <p className="eyebrow">Important bits</p>
+          <h2>The short version, without the filler.</h2>
           <p>
-            I dig until I understand the why, not just the how. The way I work
-            is outcome-driven, adaptive, and grounded in real production
-            environments where the feedback loop is immediate.
+            Luke Prinsloo is a platform engineer with a production-first
+            mindset, a creative background, and a strong bias toward systems
+            that make teams faster without making operations messier.
           </p>
         </div>
 
-        <div className="capability-stack">
-          {capabilityRows.map((row) => (
-            <article key={row} className="capability-row">
-              <span className="capability-dot" aria-hidden="true" />
-              <p>{row}</p>
+        <div className="important-grid">
+          {importantBits.map((item) => (
+            <article key={item.title} className="glass-card important-card">
+              <p className="card-label">{item.title}</p>
+              <p>{item.body}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="section-block timeline-layout section-anchor" id="experience" data-reveal>
+      <section className="section-block work-layout">
         <div className="section-copy">
-          <p className="eyebrow">Experience</p>
-          <h2>A path from visual craft to platform systems.</h2>
+          <p className="eyebrow">Selected work</p>
+          <h2>Recent work that points to where I'm heading.</h2>
           <p>
-            My direction into platform engineering was not a jump from nowhere.
-            It was the natural result of moving from design into QA, then into
-            frontend, backend, and cloud delivery.
+            My current role at Inner Reality sits across product systems,
+            backend services, integrations, and AWS delivery. That mix is a big
+            part of why platform engineering feels like the right center of
+            gravity.
           </p>
         </div>
 
-        <div className="timeline-list">
-          {timeline.map((entry) => (
-            <article key={entry.years + entry.role} className="timeline-card">
-              <p className="timeline-years">{entry.years}</p>
-              <div>
-                <h3>
-                  {entry.role}
-                  <span>{entry.company}</span>
-                </h3>
-                <p>{entry.summary}</p>
-              </div>
+        <div className="work-grid">
+          {selectedWork.map((item) => (
+            <article key={item.title} className="glass-card work-card">
+              <p className="card-label">{item.meta}</p>
+              <h3>{item.title}</h3>
+              <p>{item.summary}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="section-block quote-layout" id="writing" data-reveal>
+      <section className="section-block thought-layout">
         <div className="section-copy">
-          <p className="eyebrow">Writing</p>
-          <h2>Fragments from the way I think.</h2>
+          <p className="eyebrow">How I think</p>
+          <h2>Engineering, but with the creative side left intact.</h2>
           <p>
-            These are the themes that keep showing up in my writing:
-            engineering as a creative act, AI as leverage, and systems that
-            still need human judgment at the center.
+            The writing and the work line up closely: platform thinking,
+            production responsibility, and AI used as leverage rather than as a
+            substitute for judgment.
           </p>
         </div>
 
-        <div className="quote-grid">
-          {writing.map((quote) => (
-            <blockquote key={quote} className="soft-card quote-card">
-              <p>{quote}</p>
-            </blockquote>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block seo-layout" data-reveal>
-        <div className="section-copy">
-          <p className="eyebrow">Location and reach</p>
-          <h2>Based in Somerset West, working well beyond it.</h2>
-          <p>
-            I am based in Somerset West in the Western Cape, close to Cape
-            Town, and I work well with distributed teams and remote delivery
-            across markets.
-          </p>
-        </div>
-
-        <div className="seo-grid">
-          {searchSignals.map((signal) => (
-            <article key={signal} className="soft-card seo-card">
-              <p>{signal}</p>
+        <div className="thought-grid">
+          {writingFragments.map((item) => (
+            <article key={item.title} className="glass-card thought-card">
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="section-block closing-card" data-reveal>
+      <section className="section-block reach-layout">
+        <div className="section-copy">
+          <p className="eyebrow">Where I fit</p>
+          <h2>Somerset West roots. Cape Town context. Remote reach.</h2>
+          <p>
+            If someone is searching for a platform engineer in Somerset West,
+            near Cape Town, or across South Africa and UK-aligned remote teams,
+            this is the lane I occupy naturally.
+          </p>
+        </div>
+
+        <div className="reach-list">
+          {reachNotes.map((note) => (
+            <article key={note} className="glass-card reach-card">
+              <span className="reach-dot" aria-hidden="true" />
+              <p>{note}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </>
+  )
+
+  const renderPhotographyContent = () => (
+    <>
+      <section className="section-block photo-hero-layout">
+        <div className="photo-hero">
+          <div className="photo-copy">
+            <p className="eyebrow">Luke photography</p>
+            <h2>A quieter archive, built around portraits, styling, detail, and light.</h2>
+            <p>
+              Before software became the center, photography and design shaped
+              how I framed things. This side of the site keeps that history
+              close and lets the images speak with almost no interface in the
+              way.
+            </p>
+          </div>
+
+          <div className="photo-hero-card">
+            <p className="panel-label">Photography profile</p>
+            <p>
+              Portraits, commercial experiments, archive pieces, and older
+              editorial work from Luke's earlier creative years.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-block important-layout">
+        <div className="section-copy">
+          <p className="eyebrow">Visual lane</p>
+          <h2>Minimal shell. Immediate images. A more tactile version of the same brain.</h2>
+          <p>
+            The instinct is familiar: composition, readability, emotional
+            weight, and restraint. Different medium, same bias toward making
+            the signal clearer.
+          </p>
+        </div>
+
+        <div className="important-grid">
+          {photographyHighlights.map((item) => (
+            <article key={item.title} className="glass-card important-card">
+              <p className="card-label">{item.title}</p>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block photo-gallery-layout">
+        <div className="section-copy">
+          <p className="eyebrow">Selected frames</p>
+          <h2>An editorial cut from the archive.</h2>
+          <p>
+            A few older images to establish the visual side of Luke's work
+            before the engineering profile took center stage.
+          </p>
+        </div>
+
+        <div className="photo-gallery" aria-label="Photography portfolio">
+          {photographyGallery.map((item) => (
+            <figure
+              key={item.src}
+              className={`photo-card photo-card-${item.variant}`}
+            >
+              <img src={item.src} alt={item.alt} loading="lazy" />
+              <figcaption>
+                <span>{item.title}</span>
+                <span>{item.meta}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-block closing-card">
         <div>
           <p className="eyebrow">Contact</p>
-          <h2>Looking for someone who can span quality, product, and platform.</h2>
+          <h2>Want the engineering side again or looking to talk creative history.</h2>
           <p>
-            If you need someone who can move between implementation, systems,
-            and delivery without losing the bigger picture, let&apos;s talk.
+            Ask the agent to switch modes at any time, or reach out on
+            LinkedIn if you want the full story behind the work.
           </p>
         </div>
         <a
@@ -386,6 +730,89 @@ function App() {
           Contact on LinkedIn
         </a>
       </section>
+    </>
+  )
+
+  return (
+    <main className="page-shell" ref={rootRef}>
+      <div className="page-ripple" aria-hidden="true" />
+      <div className="page-haze page-haze-a" aria-hidden="true" />
+      <div className="page-haze page-haze-b" aria-hidden="true" />
+      <div className="page-haze page-haze-c" aria-hidden="true" />
+      <div className="page-line page-line-a" aria-hidden="true" />
+      <div className="page-line page-line-b" aria-hidden="true" />
+      <div className="page-spotlight" aria-hidden="true" />
+
+      <section className="ask-stage">
+        <p className="ask-stage-label">luke's agent is online</p>
+        {renderChatShell('ask-shell', 'stage')}
+      </section>
+
+      <div className="content-stack">
+        <section className="mode-switcher section-block" style={{ marginTop: 0 }}>
+          <div className="mode-toggle" role="tablist" aria-label="Profile mode">
+            <button
+              type="button"
+              className={`mode-toggle-button ${siteMode === 'engineer' ? 'is-active' : ''}`}
+              onClick={() => setModeAndResetView('engineer')}
+              aria-pressed={siteMode === 'engineer'}
+            >
+              Engineering
+            </button>
+            <button
+              type="button"
+              className={`mode-toggle-button ${siteMode === 'photography' ? 'is-active' : ''}`}
+              onClick={() => setModeAndResetView('photography')}
+              aria-pressed={siteMode === 'photography'}
+            >
+              Photography
+            </button>
+          </div>
+        </section>
+
+        {siteMode === 'engineer'
+          ? renderEngineerContent()
+          : renderPhotographyContent()}
+      </div>
+
+      <button
+        type="button"
+        className={`assistant-launcher ${isAssistantDocked ? 'is-visible' : ''}`}
+        onClick={() => setIsModalOpen(true)}
+        aria-haspopup="dialog"
+        aria-expanded={isModalOpen}
+      >
+        <span className="assistant-launcher-dot" aria-hidden="true" />
+        Ask Agent
+      </button>
+
+      {isAssistantDocked && isModalOpen ? (
+        <div
+          className="assistant-modal-backdrop"
+          role="presentation"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="assistant-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Chat with Luke's agent"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="assistant-modal-bar">
+              <p>Luke's Agent</p>
+              <button
+                type="button"
+                className="assistant-close"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+            {renderChatShell('assistant-shell', 'modal')}
+          </div>
+        </div>
+      ) : null}
     </main>
   )
 }

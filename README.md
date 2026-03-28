@@ -1,6 +1,6 @@
 # This Is Luke
 
-A personal portfolio site for Luke Prinsloo: AI-native cloud engineer, platform-minded builder, and former designer. The frontend is a React + Vite app, and the infrastructure lives in `infra/` as an AWS CDK stack for serverless hosting with S3 + CloudFront, with optional Route 53 + ACM support for a custom domain.
+A personal portfolio site for Luke Prinsloo: platform engineer on weekdays, photographer on weekends, AI-augmented builder always. The frontend is a React + Vite app, and the infrastructure lives in `infra/` as an AWS CDK stack for serverless hosting with S3 + CloudFront, plus a Bedrock-backed site assistant and optional Route 53 + ACM support for a custom domain.
 
 ## Structure
 
@@ -9,8 +9,18 @@ this-is-luke/
 ├── src/              # React app
 ├── public/           # Static assets
 ├── infra/            # CDK stack for hosting + DNS
+├── docs/             # Human-readable Luke knowledge files
+├── AI_ASSISTANT.md   # Maintainer notes for the assistant
 └── dist/             # Built frontend output
 ```
+
+## Knowledge files
+
+These files are the easiest way to understand the assistant and Luke's current positioning:
+
+- `docs/luke-knowledge-pack.md`
+- `docs/luke-interview.md`
+- `AI_ASSISTANT.md`
 
 ## Local development
 
@@ -24,6 +34,13 @@ pnpm dev
 ```bash
 pnpm lint
 pnpm build
+```
+
+## Assistant and infra checks
+
+```bash
+node --check infra/lambda/chat-handler.mjs
+pnpm infra:synth
 ```
 
 ## Infrastructure
