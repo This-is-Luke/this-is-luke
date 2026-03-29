@@ -149,6 +149,7 @@ const initialMessages: ChatMessage[] = []
 
 function App() {
   const rootRef = useRef<HTMLElement | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
   const [draft, setDraft] = useState('')
   const [siteMode, setSiteMode] = useState<SiteMode>('engineer')
@@ -292,6 +293,198 @@ function App() {
   }, [])
 
   useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) {
+      return
+    }
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) {
+      return
+    }
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    let w = 0
+    let h = 0
+    let mx = -9999
+    let my = -9999
+
+    type MeshPoint = {
+      baseX: number
+      baseY: number
+      phase: number
+      speed: number
+      currentX: number
+      currentY: number
+    }
+    type TriColor = { h: number; s: number; l: number; a: number }
+
+    let points: MeshPoint[] = []
+    let triangles: [number, number, number][] = []
+    let triColors: TriColor[] = []
+
+    const generate = () => {
+      const cell = 70
+      const jitter = cell * 0.45
+
+      const cols = Math.ceil(w / cell) + 2
+      const rows = Math.ceil(h / cell) + 2
+
+      points = []
+      triangles = []
+      triColors = []
+
+      const grid: number[][] = []
+      for (let r = 0; r <= rows; r++) {
+        grid[r] = []
+        for (let c = 0; c <= cols; c++) {
+          grid[r][c] = points.length
+          const bx = c * cell - cell + (Math.random() - 0.5) * jitter * 2
+          const by = r * cell - cell + (Math.random() - 0.5) * jitter * 2
+          points.push({
+            baseX: bx,
+            baseY: by,
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.3 + Math.random() * 0.4,
+            currentX: bx,
+            currentY: by,
+          })
+        }
+      }
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const tl = grid[r][c]
+          const tr = grid[r][c + 1]
+          const bl = grid[r + 1][c]
+          const br = grid[r + 1][c + 1]
+          triangles.push([tl, tr, bl])
+          triangles.push([tr, br, bl])
+        }
+      }
+
+      for (const tri of triangles) {
+        const cx =
+          (points[tri[0]].baseX +
+            points[tri[1]].baseX +
+            points[tri[2]].baseX) /
+          3
+        const cy =
+          (points[tri[0]].baseY +
+            points[tri[1]].baseY +
+            points[tri[2]].baseY) /
+          3
+        const nx = Math.max(0, Math.min(1, cx / w))
+        const ny = Math.max(0, Math.min(1, cy / h))
+        const rand = Math.random()
+
+        const baseHue = 350 - nx * 155
+        triColors.push({
+          h: (((baseHue + (rand - 0.5) * 35) % 360) + 360) % 360,
+          s: 60 + rand * 25,
+          l: 45 + rand * 20 + (1 - ny) * 10,
+          a: 0.07 + rand * 0.25,
+        })
+      }
+    }
+
+    const resize = () => {
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      generate()
+    }
+
+    let time = 0
+    let raf = 0
+    const LERP = 0.07
+    const RADIUS = 380
+    const STRENGTH = 55
+
+    const draw = () => {
+      time += 0.006
+      ctx.clearRect(0, 0, w, h)
+
+      for (const p of points) {
+        const t1 = time * p.speed + p.phase
+        const t2 = time * (p.speed * 1.4) + p.phase * 0.6
+        const t3 =
+          time * 0.15 + p.baseX * 0.008 + p.baseY * 0.006
+
+        let targetX =
+          p.baseX +
+          Math.sin(t1) * 18 +
+          Math.sin(t2 * 0.7) * 12 +
+          Math.sin(t3) * 25
+        let targetY =
+          p.baseY +
+          Math.cos(t1 * 0.9) * 18 +
+          Math.cos(t2 * 0.6) * 12 +
+          Math.cos(t3 * 0.8) * 25
+
+        const dx = targetX - mx
+        const dy = targetY - my
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < RADIUS && dist > 0) {
+          const t = 1 - dist / RADIUS
+          const force = t * t * STRENGTH
+          targetX += (dx / dist) * force
+          targetY += (dy / dist) * force
+        }
+
+        p.currentX += (targetX - p.currentX) * LERP
+        p.currentY += (targetY - p.currentY) * LERP
+      }
+
+      for (let i = 0; i < triangles.length; i++) {
+        const [ai, bi, ci] = triangles[i]
+        const col = triColors[i]
+
+        ctx.beginPath()
+        ctx.moveTo(points[ai].currentX, points[ai].currentY)
+        ctx.lineTo(points[bi].currentX, points[bi].currentY)
+        ctx.lineTo(points[ci].currentX, points[ci].currentY)
+        ctx.closePath()
+
+        ctx.fillStyle = `hsla(${col.h}, ${col.s}%, ${col.l}%, ${col.a})`
+        ctx.fill()
+
+        ctx.strokeStyle = `hsla(${col.h}, ${Math.min(100, col.s + 10)}%, ${Math.min(95, col.l + 20)}%, ${col.a * 0.35})`
+        ctx.lineWidth = 0.5
+        ctx.stroke()
+      }
+
+      raf = requestAnimationFrame(draw)
+    }
+
+    const onPointerMove = (e: MouseEvent) => {
+      mx = e.clientX
+      my = e.clientY
+    }
+
+    resize()
+    draw()
+
+    window.addEventListener('resize', resize)
+    window.addEventListener('mousemove', onPointerMove, { passive: true })
+
+    return () => {
+      window.removeEventListener('resize', resize)
+      window.removeEventListener('mousemove', onPointerMove)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
+
+  useEffect(() => {
+    const shell = rootRef.current
+    if (!shell) {
+      return
+    }
+
     const handleScroll = () => {
       const shouldDock = window.scrollY > window.innerHeight * 0.72
       setIsAssistantDocked((current) =>
@@ -300,6 +493,10 @@ function App() {
       if (!shouldDock) {
         setIsModalOpen(false)
       }
+
+      const fadeEnd = window.innerHeight * 0.6
+      const fade = Math.min(1, window.scrollY / fadeEnd)
+      shell.style.setProperty('--scroll-fade', String(fade))
     }
 
     handleScroll()
@@ -473,6 +670,25 @@ function App() {
           ))}
         </div>
       </section>
+
+      <section className="section-block closing-card">
+        <div>
+          <p className="eyebrow">Contact</p>
+          <h2>Interested in working together or just want to talk shop.</h2>
+          <p>
+            Ask the agent anything, or reach out directly on LinkedIn
+            if you want the full conversation.
+          </p>
+        </div>
+        <a
+          href="https://www.linkedin.com/in/lukas-prinsloo-ai-native-cloud-engineer/"
+          target="_blank"
+          rel="noreferrer"
+          className="button button-primary"
+        >
+          Contact on LinkedIn
+        </a>
+      </section>
     </>
   )
 
@@ -612,12 +828,20 @@ function App() {
 
   return (
     <main className="page-shell" ref={rootRef}>
+      <div className="geo-void" aria-hidden="true">
+        <canvas ref={canvasRef} className="geo-canvas" />
+      </div>
+
       <section className="ask-stage">
         <p className="ask-stage-label">luke's agent is online</p>
         {renderChatShell('ask-shell', 'stage')}
         <div className="scroll-hint" aria-hidden="true">
-          <span>scroll</span>
-          <span className="scroll-hint-line" />
+          <span className="scroll-hint-text">scroll</span>
+          <span className="scroll-hint-arrow">
+            <span />
+            <span />
+            <span />
+          </span>
         </div>
       </section>
 
