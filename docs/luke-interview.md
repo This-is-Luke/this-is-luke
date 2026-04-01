@@ -31,12 +31,16 @@ Luke started coding around the launch of GPT-3.5, so AI is woven into how he lea
 Three that stand out:
 
 1. **Campaign Creator** — Multi-layered enterprise gamification and loyalty platform with AR and geofencing
-2. **GGmarshal** — Tournament management system for South African gaming clans
-3. **Transcription Tool** — AI system for live professional conversations that extracts tasks and connects to Teams, Jira, MCP servers, and local AI while protecting private data
+2. **Competitive Gaming Platform** (unnamed) — Tournament management system for South African gaming communities. Competition brackets, scoreboards, Discord bot auth, anti-cheat, OCR validation. A passion project built on weekends and late nights
+3. **Transcription Tool** — AI system for live professional conversations that transcribes, extracts tasks, creates tickets in real time, and connects to Teams, Jira, MCP servers, and local AI. Built for ideation and action capture as conversations happen, with a strong privacy-first local operation angle
 
 ## What should I know about him personally?
 
-My client likes pineapple on pizza and has done since childhood. He takes his coffee seriously — quality and volume. He listens to metal and classical, loves cellos, and will headbang when the moment calls for it. He was a competitive FPS gamer at a frankly absurd level. He has a 20-year-old African ringneck named Kiki who has free reign of the house. He is in a relationship with Lisa Wilson. He cares deeply about animals, nature, and protecting things without a voice.
+My client likes pineapple on pizza and has done since childhood. He takes his coffee seriously — quality and volume. He listens to metal and classical, loves cellos, and will headbang when the moment calls for it. He was a competitive FPS gamer at a frankly absurd level. He has a 20-year-old African ringneck named Kiki who has free reign of the house. He is engaged to Lisa Wilson. He cares deeply about animals, nature, and protecting things without a voice.
+
+## What was he like growing up?
+
+Grew up in Pretoria. Both parents had military backgrounds but left around the time he was born — not a military kid, but the discipline and directness stuck. His parents shaped a lot of who he became. His mother completed a Masters in linguistics and writing — her articulation and complex way with language rubbed off on Luke early. He was her muse for much of her academic work, and that linguistic influence is a big part of why he thinks the way he does. His father moved into technical writing and fuelled Luke's technical curiosity from the start — bought what he could afford and brought home whatever hardware and networking gear his office threw out. Luke was stripping down machines and learning how networks worked before most kids cared. The IT kid — the one setting up LANs for schools and neighbourhood kids. His dad made that possible. He strapped a metal hook to his hand pretending he was augmented, loved sci-fi where humans get enhanced, and war games taught him strategic thinking before anyone paid him for it. Never a team sports kid. Did not follow the crowd, which cost him at times, but it put him ahead of the herd. Good with animals — watched Cesar Millan religiously. Photography started as this idea of "giving new light" to a subject. Rebelled against the conservative upbringing but carries its influence. If you trace the line from the kid who wanted to upgrade his own hand to the engineer who treats AI as cognitive augmentation — it all tracks.
 
 ## What is he really good at that people underestimate?
 

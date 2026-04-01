@@ -69,11 +69,12 @@ export class PortfolioStack extends Stack {
       environment: {
         GLOBAL_DAILY_LIMIT: '1500',
         GLOBAL_MONTHLY_LIMIT: '10000',
+        IP_HOURLY_LIMIT: process.env.LUKE_AI_IP_HOURLY_LIMIT ?? '15',
         MODEL_ID: process.env.LUKE_AI_MODEL_ID ?? 'eu.amazon.nova-lite-v1:0',
         MODEL_REGION: process.env.LUKE_AI_MODEL_REGION ?? 'eu-west-1',
         QUOTA_TABLE_NAME: quotaTable.tableName,
         SESSION_HOURLY_LIMIT:
-          process.env.LUKE_AI_SESSION_HOURLY_LIMIT ?? '40',
+          process.env.LUKE_AI_SESSION_HOURLY_LIMIT ?? '15',
       },
     })
 

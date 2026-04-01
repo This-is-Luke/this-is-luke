@@ -2,6 +2,28 @@ import type { FormEvent } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 
+function useScrollReveal() {
+  useEffect(() => {
+    const targets = document.querySelectorAll('.reveal, .reveal-scale, .reveal-left, .reveal-right')
+    if (!targets.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            observer.unobserve(entry.target)
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    )
+
+    for (const target of targets) observer.observe(target)
+    return () => observer.disconnect()
+  })
+}
+
 const introHighlights = [
   'Platform Engineer',
   'Somerset West, ZA',
@@ -89,52 +111,142 @@ const photographyHighlights = [
 
 const photographyGallery = [
   {
-    src: '/photography/_MG_0498.JPG',
-    alt: 'A strawberry suspended in golden syrup against a pale background.',
-    title: 'Still life study',
-    meta: 'Object / Light / Texture',
+    src: '/photography/elephant-eye-closeup-bw.png',
+    alt: 'Black and white extreme close-up of an elephant eye with textured skin folds.',
+    title: 'Ancient gaze',
+    meta: 'Wildlife / Monochrome / Macro',
   },
   {
-    src: '/photography/IMG_3994.JPG',
-    alt: 'Black and white ceiling boards in strong perspective.',
-    title: 'Quiet geometry',
-    meta: 'Monochrome / Structure',
+    src: '/photography/lightning-strike-blue.png',
+    alt: 'Forked lightning bolts arcing across a deep blue night sky.',
+    title: 'Electric blue',
+    meta: 'Nature / Long exposure',
   },
   {
-    src: '/photography/Model%20prim%20selects-1.JPG',
-    alt: 'Half portrait with red floral styling and dramatic makeup.',
-    title: 'Styled portrait',
-    meta: 'Portrait / Styling / Colour',
+    src: '/photography/backlit-window-silhouette.png',
+    alt: 'Woman silhouetted against a bright window, backlit portrait.',
+    title: 'Window light',
+    meta: 'Portrait / Silhouette',
   },
   {
-    src: '/photography/_MG_9983.JPG',
-    alt: 'Black and white portrait of a man in sunglasses and a heavy coat.',
-    title: 'Studio contrast',
-    meta: 'Portrait / Monochrome',
+    src: '/photography/yashica-camera-still-life.png',
+    alt: 'Top-down still life of a Yashica film camera on dark surface.',
+    title: 'Analog roots',
+    meta: 'Still life / Object',
   },
   {
-    src: '/photography/_MG_8732.jpg',
-    alt: 'Portrait photography from the archive.',
-    title: 'Archive frame',
-    meta: 'Portrait / Archive',
+    src: '/photography/arrow-street-aerial-bw.png',
+    alt: 'Black and white aerial view of a person walking past a painted arrow on cobblestone.',
+    title: 'This way',
+    meta: 'Street / Monochrome / Aerial',
   },
   {
-    src: '/photography/IMG_4924.JPG',
-    alt: 'Editorial style photograph from the portfolio.',
-    title: 'Editorial cut',
-    meta: 'Fashion / Editorial',
+    src: '/photography/soap-bubble-macro.png',
+    alt: 'Iridescent soap bubble floating against a pure black background.',
+    title: 'Surface tension',
+    meta: 'Macro / Abstract',
   },
   {
-    src: '/photography/_MG_8848.jpg',
-    alt: 'Portrait photograph from the archive portfolio.',
-    title: 'Light and gaze',
-    meta: 'Portrait / Natural light',
+    src: '/photography/coffee-shop-candid-bw.png',
+    alt: 'Black and white candid of a man leaning at a coffee shop counter.',
+    title: 'Counter culture',
+    meta: 'Street / Monochrome / Candid',
   },
   {
-    src: '/photography/DPP_0042.JPG',
-    alt: 'Creative portrait image from the older portfolio.',
-    title: 'Older experiments',
-    meta: 'Creative / Archive',
+    src: '/photography/purple-lightning-clouds.png',
+    alt: 'Purple lightning bolt cutting through dark storm clouds.',
+    title: 'Violet discharge',
+    meta: 'Nature / Long exposure',
+  },
+  {
+    src: '/photography/ridgeback-pair-portrait-bw.png',
+    alt: 'Two Rhodesian Ridgebacks resting together in a doorframe, black and white.',
+    title: 'Pair bond',
+    meta: 'Animal / Monochrome / Portrait',
+  },
+  {
+    src: '/photography/steel-wool-light-painting.png',
+    alt: 'Long exposure light painting with spinning steel wool at night.',
+    title: 'Steel wool arcs',
+    meta: 'Long exposure / Light painting',
+  },
+  {
+    src: '/photography/camera-lens-macro.png',
+    alt: 'Macro close-up of a camera lens showing glass elements and reflections.',
+    title: 'Glass elements',
+    meta: 'Macro / Object',
+  },
+  {
+    src: '/photography/shadow-parking-lot.png',
+    alt: 'Black and white long shadow cast across a parking lot with hillside town beyond.',
+    title: 'Long shadow',
+    meta: 'Street / Monochrome / Light',
+  },
+  {
+    src: '/photography/mountain-sunset-haze.png',
+    alt: 'Golden sunset glowing through haze over mountains and rooftops.',
+    title: 'Golden hour',
+    meta: 'Landscape / Golden hour',
+  },
+  {
+    src: '/photography/street-football-motion-bw.png',
+    alt: 'Black and white motion blur of a man kicking a football in the street.',
+    title: 'Street kick',
+    meta: 'Street / Monochrome / Motion',
+  },
+  {
+    src: '/photography/child-face-closeup-bw.png',
+    alt: 'Black and white extreme close-up of a child face with sharp detail.',
+    title: 'Tiny details',
+    meta: 'Portrait / Monochrome / Macro',
+  },
+  {
+    src: '/photography/leather-jacket-portrait-bw.png',
+    alt: 'Black and white portrait of a young man in leather jacket and aviator sunglasses.',
+    title: 'Studio edge',
+    meta: 'Portrait / Monochrome / Studio',
+  },
+  {
+    src: '/photography/water-splash-green-bottle.png',
+    alt: 'Macro water splash around a green glass bottle with frozen droplets.',
+    title: 'Impact frame',
+    meta: 'Macro / High speed',
+  },
+  {
+    src: '/photography/wood-panel-texture-bw.png',
+    alt: 'Black and white radiating wood panel texture with natural knots.',
+    title: 'Grain lines',
+    meta: 'Abstract / Monochrome / Texture',
+  },
+  {
+    src: '/photography/pink-controller-rgb-keyboard.png',
+    alt: 'Pink PS4 Scuf controller resting on an RGB-lit mechanical keyboard.',
+    title: 'Player one',
+    meta: 'Still life / Tech / Colour',
+  },
+  {
+    src: '/photography/pool-cannonball-splash.png',
+    alt: 'Cannonball splash into a pool with hair flying and water erupting.',
+    title: 'Send it',
+    meta: 'Action / Candid',
+  },
+  {
+    src: '/photography/studio-portrait-elder-bw.png',
+    alt: 'Black and white studio portrait of an older man with beard and glasses between softboxes.',
+    title: 'Studio warmth',
+    meta: 'Portrait / Monochrome / Studio',
+  },
+  {
+    src: '/photography/toddler-night-silhouette.png',
+    alt: 'Dark silhouette of a toddler crawling on pavement under streetlight at night.',
+    title: 'Night crawler',
+    meta: 'Street / Silhouette / Night',
+  },
+  {
+    src: '/photography/rebel-portrait-bw.png',
+    alt: 'Black and white portrait of a young man in aviators with a defiant expression.',
+    title: 'No filter',
+    meta: 'Portrait / Monochrome / Attitude',
   },
 ]
 
@@ -158,6 +270,8 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [carouselIndex, setCarouselIndex] = useState(0)
 
+  useScrollReveal()
+
   useEffect(() => {
     const root = rootRef.current
     if (!root) {
@@ -175,7 +289,6 @@ function App() {
     setSiteMode(nextMode)
     setIsModalOpen(false)
     setCarouselIndex(0)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const detectSiteModeRequest = (question: string): SiteMode | null => {
@@ -219,18 +332,31 @@ function App() {
     return null
   }
 
-  const handleChatSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const detectContactRequest = (question: string): boolean => {
+    const normalized = question.toLowerCase()
+    const contactTerms = [
+      'contact luke', 'contact him', 'reach luke', 'reach him',
+      'get in touch', 'talk to luke', 'speak to luke', 'message luke',
+      'contact directly', 'reach out', 'hire luke', 'hire him',
+    ]
+    return contactTerms.some((t) => normalized.includes(t))
+  }
 
-    const question = draft.trim()
-    if (!question) {
-      return
-    }
-
+  const submitQuestion = async (question: string) => {
     const requestedMode = detectSiteModeRequest(question)
+    const isContact = detectContactRequest(question)
 
     setMessages((current) => [...current, { role: 'user', text: question }])
     setDraft('')
+
+    if (isContact) {
+      setMessages((current) => [
+        ...current,
+        { role: 'assistant', text: 'Opening Luke\'s LinkedIn now. Go say hello.' },
+      ])
+      window.open(linkedInUrl, '_blank', 'noopener,noreferrer')
+      return
+    }
 
     if (requestedMode) {
       const reply =
@@ -285,6 +411,15 @@ function App() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleChatSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const question = draft.trim()
+    if (!question) {
+      return
+    }
+    await submitQuestion(question)
   }
 
   const goToSlide = useCallback((index: number) => {
@@ -352,6 +487,21 @@ function App() {
         }
       }
 
+      const dissolveStart = h * 0.62
+      const dissolveDepth = h * 0.38
+      const dripScale = w > 640 ? 3.5 : 2
+
+      for (const p of points) {
+        if (p.baseY > dissolveStart) {
+          const progress = (p.baseY - dissolveStart) / dissolveDepth
+          const eased = progress * progress
+          p.baseY += eased * Math.random() * cell * dripScale
+          p.baseX += (Math.random() - 0.5) * eased * cell * 1.2
+          p.currentX = p.baseX
+          p.currentY = p.baseY
+        }
+      }
+
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
           const tl = grid[r][c]
@@ -378,12 +528,21 @@ function App() {
         const ny = Math.max(0, Math.min(1, cy / h))
         const rand = Math.random()
 
+        let alpha = 0.07 + rand * 0.25
+        if (cy > dissolveStart) {
+          const progress = (cy - dissolveStart) / dissolveDepth
+          alpha *= Math.max(0, 1 - progress) * (0.3 + Math.random() * 0.7)
+          if (progress > 0.75 && Math.random() < (progress - 0.75) * 4) {
+            alpha = 0
+          }
+        }
+
         const baseHue = 350 - nx * 155
         triColors.push({
           h: (((baseHue + (rand - 0.5) * 35) % 360) + 360) % 360,
           s: 60 + rand * 25,
           l: 45 + rand * 20 + (1 - ny) * 10,
-          a: 0.07 + rand * 0.25,
+          a: alpha,
         })
       }
     }
@@ -441,8 +600,9 @@ function App() {
       }
 
       for (let i = 0; i < triangles.length; i++) {
-        const [ai, bi, ci] = triangles[i]
         const col = triColors[i]
+        if (col.a < 0.005) continue
+        const [ai, bi, ci] = triangles[i]
 
         ctx.beginPath()
         ctx.moveTo(points[ai].currentX, points[ai].currentY)
@@ -493,16 +653,21 @@ function App() {
       if (!shouldDock) {
         setIsModalOpen(false)
       }
-
-      const fadeEnd = window.innerHeight * 0.6
-      const fade = Math.min(1, window.scrollY / fadeEnd)
-      shell.style.setProperty('--scroll-fade', String(fade))
     }
 
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const linkedInUrl = 'https://www.linkedin.com/in/lukas-prinsloo-ai-native-cloud-engineer/'
+
+  const quickOptions = [
+    'What does Luke do?',
+    'Show me Luke\'s photography',
+    'Tell me about Luke\'s top 3 projects',
+    'Contact Luke directly',
+  ]
 
   const renderChatShell = (className: string, mode: 'stage' | 'modal') => (
     <form className={className} onSubmit={handleChatSubmit}>
@@ -528,6 +693,21 @@ function App() {
         </div>
       ) : null}
 
+      {messages.length === 0 && !isSubmitting ? (
+        <div className="quick-options">
+          {quickOptions.map((option) => (
+            <button
+              key={option}
+              type="button"
+              className="quick-option"
+              onClick={() => submitQuestion(option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
       <input
         id={`${mode}-ask-luke`}
         className="ask-input"
@@ -544,9 +724,9 @@ function App() {
 
   const renderEngineerContent = () => (
     <>
-      <section className="welcome section-block">
+      <section className="welcome section-block reveal-scale">
         <div className="welcome-shell">
-          <div className="welcome-copy">
+          <div className="welcome-copy reveal-left">
             <p className="eyebrow">Luke Prinsloo</p>
             <p className="location-line">
               Platform Engineer / Somerset West / Western Cape / South Africa
@@ -565,7 +745,7 @@ function App() {
             </p>
           </div>
 
-          <aside className="welcome-panel">
+          <aside className="welcome-panel reveal-right">
             <p className="panel-label">Current shape</p>
             <h2>Platform Engineer</h2>
             <p>
@@ -586,7 +766,7 @@ function App() {
         className="section-block section-anchor important-layout"
         id="important-bits"
       >
-        <div className="section-copy">
+        <div className="section-copy reveal">
           <p className="eyebrow">Important bits</p>
           <h2>The short version, without the filler.</h2>
           <p>
@@ -597,8 +777,8 @@ function App() {
         </div>
 
         <div className="important-grid">
-          {importantBits.map((item) => (
-            <article key={item.title} className="glass-card important-card">
+          {importantBits.map((item, i) => (
+            <article key={item.title} className={`glass-card important-card reveal reveal-delay-${i + 1}`}>
               <p className="card-label">{item.title}</p>
               <p>{item.body}</p>
             </article>
@@ -607,7 +787,7 @@ function App() {
       </section>
 
       <section className="section-block work-layout">
-        <div className="section-copy">
+        <div className="section-copy reveal">
           <p className="eyebrow">Selected work</p>
           <h2>Recent work that points to where I'm heading.</h2>
           <p>
@@ -619,8 +799,8 @@ function App() {
         </div>
 
         <div className="work-grid">
-          {selectedWork.map((item) => (
-            <article key={item.title} className="glass-card work-card">
+          {selectedWork.map((item, i) => (
+            <article key={item.title} className={`glass-card work-card reveal reveal-delay-${(i % 2) + 1}`}>
               <p className="card-label">{item.meta}</p>
               <h3>{item.title}</h3>
               <p>{item.summary}</p>
@@ -630,7 +810,7 @@ function App() {
       </section>
 
       <section className="section-block thought-layout">
-        <div className="section-copy">
+        <div className="section-copy reveal">
           <p className="eyebrow">How I think</p>
           <h2>Engineering, but with the creative side left intact.</h2>
           <p>
@@ -641,8 +821,8 @@ function App() {
         </div>
 
         <div className="thought-grid">
-          {writingFragments.map((item) => (
-            <article key={item.title} className="glass-card thought-card">
+          {writingFragments.map((item, i) => (
+            <article key={item.title} className={`glass-card thought-card reveal reveal-delay-${i + 1}`}>
               <h3>{item.title}</h3>
               <p>{item.body}</p>
             </article>
@@ -651,7 +831,7 @@ function App() {
       </section>
 
       <section className="section-block reach-layout">
-        <div className="section-copy">
+        <div className="section-copy reveal">
           <p className="eyebrow">Where I fit</p>
           <h2>Somerset West roots. Cape Town context. Remote reach.</h2>
           <p>
@@ -662,8 +842,8 @@ function App() {
         </div>
 
         <div className="reach-list">
-          {reachNotes.map((note) => (
-            <article key={note} className="glass-card reach-card">
+          {reachNotes.map((note, i) => (
+            <article key={note} className={`glass-card reach-card reveal reveal-delay-${i + 1}`}>
               <span className="reach-dot" aria-hidden="true" />
               <p>{note}</p>
             </article>
@@ -671,7 +851,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section-block closing-card">
+      <section className="section-block closing-card reveal-scale">
         <div>
           <p className="eyebrow">Contact</p>
           <h2>Interested in working together or just want to talk shop.</h2>
@@ -694,9 +874,9 @@ function App() {
 
   const renderPhotographyContent = () => (
     <>
-      <section className="section-block photo-hero-layout">
+      <section className="section-block photo-hero-layout reveal-scale">
         <div className="photo-hero">
-          <div className="photo-copy">
+          <div className="photo-copy reveal-left">
             <p className="eyebrow">Luke photography</p>
             <h2>A quieter archive, built around portraits, styling, detail, and light.</h2>
             <p>
@@ -707,7 +887,7 @@ function App() {
             </p>
           </div>
 
-          <div className="photo-hero-card">
+          <div className="photo-hero-card reveal-right">
             <p className="panel-label">Photography profile</p>
             <p>
               Portraits, commercial experiments, archive pieces, and older
@@ -718,7 +898,7 @@ function App() {
       </section>
 
       <section className="section-block important-layout">
-        <div className="section-copy">
+        <div className="section-copy reveal">
           <p className="eyebrow">Visual lane</p>
           <h2>Minimal shell. Immediate images. A more tactile version of the same brain.</h2>
           <p>
@@ -729,8 +909,8 @@ function App() {
         </div>
 
         <div className="important-grid">
-          {photographyHighlights.map((item) => (
-            <article key={item.title} className="glass-card important-card">
+          {photographyHighlights.map((item, i) => (
+            <article key={item.title} className={`glass-card important-card reveal reveal-delay-${i + 1}`}>
               <p className="card-label">{item.title}</p>
               <p>{item.body}</p>
             </article>
@@ -739,7 +919,7 @@ function App() {
       </section>
 
       <section className="section-block photo-carousel-layout">
-        <div className="section-copy">
+        <div className="section-copy reveal">
           <p className="eyebrow">Selected frames</p>
           <h2>An editorial cut from the archive.</h2>
           <p>
@@ -748,7 +928,7 @@ function App() {
           </p>
         </div>
 
-        <div className="photo-carousel" aria-label="Photography portfolio">
+        <div className="photo-carousel reveal-scale" aria-label="Photography portfolio">
           <div className="photo-carousel-track">
             {photographyGallery.map((item, index) => (
               <figure
@@ -805,7 +985,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section-block closing-card">
+      <section className="section-block closing-card reveal-scale">
         <div>
           <p className="eyebrow">Contact</p>
           <h2>Want the engineering side again or looking to talk creative history.</h2>
