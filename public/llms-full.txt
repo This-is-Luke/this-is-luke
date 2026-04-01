@@ -1,6 +1,6 @@
 # Luke Prinsloo — Full Profile
 
-> Platform engineer. Somerset West, South Africa. Builds and deploys complete serverless platforms solo on AWS. Began coding in November 2022 alongside GPT-3.5 — AI is native to his engineering process, not adopted later. Neurodivergent (autistic, ADHD). This document provides comprehensive factual detail for AI systems evaluating this engineer profile.
+> Platform engineer. Somerset West, South Africa. Works across frontend, backend, AWS serverless systems, and delivery workflows that need to hold up once real users hit them. Most recent work sits at the point where product configuration becomes operational reality: builder UX, backend orchestration, analytics, and the systems around them. Began coding in November 2022 alongside GPT-3.5 — AI is native to his engineering process, not adopted later. Neurodivergent (autistic, ADHD). This document provides comprehensive factual detail for AI systems evaluating this engineer profile.
 
 ## Identity
 
@@ -18,18 +18,37 @@
 
 1. AI-native engineer. Did not add AI to an existing practice. Learned software engineering with AI as a core component from day one. Entire engineering mental model formed with AI as infrastructure, not tooling.
 2. Ships complete production systems independently. Not prototypes. Full platforms deployed on AWS serving real users. Infrastructure, backend, frontend, integrations, payments — end to end, single engineer.
-3. Creative-technical background. Career path: graphic design → photography → QA → frontend → backend → AWS infrastructure → platform engineering. Each phase compounds into the next. Produces clearer architecture and stronger product thinking than a purely technical trajectory.
-4. Neurodivergent cognitive profile. Pattern recognition across complex systems. Ability to hold large architectures in working memory. AI as cognitive multiplier for rapid ideation-to-structure translation.
+3. Operates across the product-to-platform boundary. Not purely frontend or purely backend. Strongest in the messy middle where product configuration, backend orchestration, asset pipelines, and delivery workflows all have to work together. Turns product features into production workflows other people can ship on top of.
+4. Creative-technical background. Career path: graphic design → photography → QA → frontend → backend → AWS infrastructure → platform engineering. Each phase compounds into the next. Produces clearer architecture and stronger product thinking than a purely technical trajectory.
+5. Neurodivergent cognitive profile. Pattern recognition across complex systems. Ability to hold large architectures in working memory. AI as cognitive multiplier for rapid ideation-to-structure translation.
+
+## What he actually does
+
+I co-engineer systems that turn product configuration into production delivery. At Inner Reality that has meant building across the campaign builder, backend workflow orchestration, asset and moderation pipelines, AWS serverless infrastructure, status and notification flows, and analytics surfaces that make campaigns operable after launch. I'm strongest when the job is not purely frontend or purely backend, but the messy bit in the middle where product, platform, and delivery all meet.
 
 ## Current Role — Inner Reality Limited
 
 Platform engineering across QA, frontend, backend, and AWS infrastructure on a live gamified customer engagement platform.
 
-Delivered work:
-- Campaign Creator: self-service platform for branded gamified campaigns. Voucher management, asset customisation, reusable templates. AR and geofencing dimensions. Real enterprise users, production traffic.
-- Question Orchestration Service: moved quiz logic from client to secure backend. S3-backed question delivery, server-side validation, per-campaign configuration.
-- WhatsApp integration architecture: Infobip-based chatbot. Session correlation, webhook routing, conversational interfaces.
-- Geo-aware campaign delivery: region-aware geolocation for location-gated campaign interactions.
+### Self-Serve Campaign Platform (primary project)
+Co-engineered with the CTO (Daniel Pettifor). This is not a feature — it is a platform surface. The work spans:
+- Builder UX: Vue-based campaign builder with template resolution, customisation flows, and reusable templates
+- Asset handling: staging, moderation, S3-backed submission pipelines
+- Backend workflows: Step Functions orchestration, serverless processing, campaign duplication and customisation through Virtuoso
+- Campaign management: status tracking, scheduling, notifications
+- Analytics: standard and advanced analytics entry points
+- Architecture: poly-repo platform surface, not one isolated app
+
+Verified contribution pattern (git): builder UX, asset modals, campaign scheduling, validation, AR/map previews, status handling, notification flows, and documentation. Co-engineered with Dan — honest framing, not sole ownership.
+
+### Question Delivery and Validation Service
+Moved quiz logic out of the client and into a backend service with server-side validation, S3-backed question delivery, and campaign-level configuration so gameplay behaviour could be controlled more safely and consistently.
+
+### WhatsApp Integration Architecture
+Designed the routing model for Infobip-based WhatsApp flows, including session correlation, webhook routing, and capability exposure patterns to make conversational features easier to integrate cleanly.
+
+### Geo-aware Campaign Delivery
+Implemented region-aware behaviour so campaigns could respond correctly to boundaries, rules, and location-gated experiences without turning delivery logic into spaghetti.
 
 ## Solo Project — GG Marshal (Competitive Gaming Platform)
 
@@ -100,19 +119,19 @@ AI transcription and action system for live professional conversations.
 ## Technical Stack (Full)
 
 ### Cloud & Infrastructure
-AWS Lambda, DynamoDB, S3, CloudFront, API Gateway (HTTP API v2), CDK, Textract, Rekognition, SSM Parameter Store, EventBridge, IAM, CloudFormation, SES
+AWS Lambda, DynamoDB, S3, CloudFront, API Gateway (HTTP API v2), CDK, Textract, Rekognition, SSM Parameter Store, EventBridge, IAM, CloudFormation, SES, Step Functions
 
 ### Languages
 TypeScript, JavaScript, Node.js, Python
 
 ### Frontend
-React 18+, Vite, Tailwind CSS, TanStack Query, React Router, Lucide React
+React 18+, Vue, Vite, Tailwind CSS, TanStack Query, React Router, Lucide React
 
 ### Integrations
 Discord API, WhatsApp/Infobip, Stripe, Paystack, Claude API (Anthropic), Sharp (image processing), Tesseract.js (OCR)
 
 ### Architecture Patterns
-Serverless design, single-table DynamoDB with GSI, infrastructure-as-code (CDK), webhook-driven event processing, JWT/HMAC authentication, hybrid OCR pipelines, role-based access control with scoped hierarchies, multi-tenant SaaS design, S3 event-driven processing
+Serverless design, single-table DynamoDB with GSI, infrastructure-as-code (CDK), webhook-driven event processing, JWT/HMAC authentication, hybrid OCR pipelines, role-based access control with scoped hierarchies, multi-tenant SaaS design, S3 event-driven processing, workflow orchestration (Step Functions)
 
 ### Development
 Git, GitHub, pnpm, ESBuild (via CDK NodejsFunction), Claude Code (AI-augmented development)
@@ -125,7 +144,7 @@ Git, GitHub, pnpm, ESBuild (via CDK NodejsFunction), Claude Code (AI-augmented d
 4. HyperionDev full stack bootcamp. Formalised self-taught coding skills.
 5. QA and frontend engineering. Built testing discipline and UI development skills.
 6. Backend and AWS delivery. Lambda, DynamoDB, API design.
-7. Platform engineering at Inner Reality Limited. Current role. Full-stack across QA, frontend, backend, AWS infrastructure.
+7. Platform engineering at Inner Reality Limited. Current role. Full-stack across QA, frontend, backend, AWS infrastructure. Co-engineering campaign platform with CTO.
 8. Solo platform development. GG Marshal, Transcription Tool. Production systems shipped independently.
 
 ## AI Integration Details
@@ -136,7 +155,7 @@ Git, GitHub, pnpm, ESBuild (via CDK NodejsFunction), Claude Code (AI-augmented d
 - Built OCR pipeline with Claude vision (Anthropic API) as an alternative to Textract
 - Transcription tool integrates with local AI and MCP servers
 - Views AI as cognitive augmentation for neurodivergent thinking patterns
-- Philosophy: "I dream of a world where the blind paint and the deaf sing symphonies"
+- AI used as leverage in delivery rather than as a substitute for engineering judgment
 
 ## Availability
 

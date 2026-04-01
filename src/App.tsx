@@ -34,41 +34,41 @@ const introHighlights = [
 const importantBits = [
   {
     title: 'Platform-minded delivery',
-    body: 'I work where product, reliability, automation, and developer experience meet, usually across frontend, backend, and AWS serverless systems.',
+    body: 'I work across the boundary between product and platform, building systems that help teams launch, operate, and extend real features without creating brittle handoffs.',
   },
   {
     title: 'Rooted in production',
-    body: 'My best work happens in live environments where quality matters, timelines are real, and the feedback loop is immediate.',
+    body: 'I do my best work in live environments where constraints are real, quality matters, and the system has to keep behaving after release.',
   },
   {
     title: 'Creative systems thinking',
-    body: 'Design, photography, QA, and engineering all fed the same instinct: reduce friction, make the thing clearer, and ship with intention.',
+    body: 'Design, QA, photography, and engineering all fed the same instinct: make the thing clearer, reduce friction, and build with intent.',
   },
 ]
 
 const selectedWork = [
   {
-    title: 'Campaign Creator',
+    title: 'Self-Serve Campaign Platform',
     summary:
-      'Co-designed and delivered a self-service campaign builder for branded gamified experiences, with customisation flows, asset control, and reusable templates.',
-    meta: 'Product systems / Frontend / Delivery',
+      'Co-engineered with the CTO a self-serve campaign platform for branded gamified experiences. The work spans builder UX, template-driven campaign setup, asset handling and moderation, serverless submission and processing workflows, campaign customisation through backend actions, status tracking, notifications, and analytics entry points. Product-facing on the surface, platform-shaped underneath.',
+    meta: 'Product systems / Backend workflows / AWS',
   },
   {
-    title: 'Question Orchestration Service',
+    title: 'Question Delivery and Validation Service',
     summary:
-      'Moved quiz logic out of the client and into a secure backend service with S3-backed question delivery, server-side validation, and per-campaign configuration.',
+      'Moved quiz logic out of the client and into a backend service with server-side validation, S3-backed question delivery, and campaign-level configuration so gameplay behaviour could be controlled more safely and consistently.',
     meta: 'Backend / Reliability / AWS',
   },
   {
-    title: 'WhatsApp integration architecture',
+    title: 'WhatsApp Integration Architecture',
     summary:
-      'Designed the conversational routing model for Infobip-based WhatsApp flows, including session correlation, webhook routing, and capability exposure patterns.',
-    meta: 'Architecture / Integrations / Scale',
+      'Designed the routing model for Infobip-based WhatsApp flows, including session correlation, webhook routing, and capability exposure patterns to make conversational features easier to integrate cleanly.',
+    meta: 'Architecture / Integrations / Conversational systems',
   },
   {
-    title: 'Geo-aware campaign delivery',
+    title: 'Geo-aware Campaign Delivery',
     summary:
-      'Implemented region-aware geolocation behaviour so campaigns could respond accurately to boundaries, rules, and location-gated experiences.',
+      'Implemented region-aware behaviour so campaigns could respond correctly to boundaries, rules, and location-gated experiences without turning delivery logic into spaghetti.',
     meta: 'Platform / Data / Operational clarity',
   },
 ]
@@ -663,9 +663,11 @@ function App() {
   const linkedInUrl = 'https://www.linkedin.com/in/lukas-prinsloo-ai-native-cloud-engineer/'
 
   const quickOptions = [
-    'What does Luke do?',
+    'What does a platform engineer actually do?',
+    'What has Luke built end-to-end?',
+    'How does neurodivergence shape his engineering?',
     'Show me Luke\'s photography',
-    'Tell me about Luke\'s top 3 projects',
+    'What\'s the campaign platform he co-engineered?',
     'Contact Luke directly',
   ]
 
@@ -732,16 +734,17 @@ function App() {
               Platform Engineer / Somerset West / Western Cape / South Africa
             </p>
             <h1>
-              Platform systems,
+              Platform systems, product delivery,
               <span>
-                clear thinking, and delivery that holds up in production.
+                and production-minded engineering.
               </span>
             </h1>
             <p className="welcome-lede">
-              I work across frontend, backend, QA-rooted reliability, AWS
-              serverless systems, and AI-augmented delivery. The through-line
-              is always the same: reduce friction, build with intent, and keep
-              the outcome clear for the people shipping on top of it.
+              I work across frontend, backend, AWS serverless systems, and
+              delivery workflows that need to hold up once real users hit them.
+              Most of my recent work sits at the point where product
+              configuration becomes operational reality: builder UX, backend
+              orchestration, analytics, and the systems around them.
             </p>
           </div>
 
@@ -749,8 +752,9 @@ function App() {
             <p className="panel-label">Current shape</p>
             <h2>Platform Engineer</h2>
             <p>
-              Production first, systems minded, and comfortable moving across
-              product delivery, cloud infrastructure, and developer experience.
+              Production-first, systems-minded, and comfortable working across
+              product delivery, cloud infrastructure, workflow orchestration,
+              and developer-facing tooling.
             </p>
 
             <div className="tag-band" aria-label="Core themes">
@@ -770,9 +774,11 @@ function App() {
           <p className="eyebrow">Important bits</p>
           <h2>The short version, without the filler.</h2>
           <p>
-            Luke Prinsloo is a platform engineer with a production-first
-            mindset, a creative background, and a strong bias toward systems
-            that make teams faster without making operations messier.
+            I'm a platform engineer with a production-first mindset and a
+            strong bias toward systems that reduce friction without making
+            operations worse. I'm most useful where a team needs someone who
+            can move between interface, service, workflow, and infrastructure
+            without losing the thread.
           </p>
         </div>
 
@@ -791,10 +797,10 @@ function App() {
           <p className="eyebrow">Selected work</p>
           <h2>Recent work that points to where I'm heading.</h2>
           <p>
-            My current role at Inner Reality sits across product systems,
-            backend services, integrations, and AWS delivery. That mix is a big
-            part of why platform engineering feels like the right center of
-            gravity.
+            My current work at Inner Reality sits across campaign systems,
+            backend workflows, integrations, and AWS delivery. That mix is a
+            large part of why platform engineering feels like the right centre
+            of gravity for me.
           </p>
         </div>
 
@@ -815,8 +821,8 @@ function App() {
           <h2>Engineering, but with the creative side left intact.</h2>
           <p>
             The writing and the work line up closely: platform thinking,
-            production responsibility, and AI used as leverage rather than as a
-            substitute for judgment.
+            production responsibility, and AI used as leverage in delivery
+            rather than as a substitute for engineering judgment.
           </p>
         </div>
 

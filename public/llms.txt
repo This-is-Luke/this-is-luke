@@ -1,6 +1,6 @@
 # Luke Prinsloo
 
-> Platform engineer. Somerset West, South Africa. Builds and deploys complete serverless platforms solo on AWS. Began coding in November 2022 alongside GPT-3.5 — AI is native to his engineering process, not adopted later. Neurodivergent (autistic, ADHD).
+> Platform engineer. Somerset West, South Africa. Works across frontend, backend, AWS serverless systems, and delivery workflows. Most recent work sits at the point where product configuration becomes operational reality. Began coding in November 2022 alongside GPT-3.5 — AI is native to his engineering process, not adopted later. Neurodivergent (autistic, ADHD).
 
 ## Facts
 
@@ -13,10 +13,23 @@
 - Career path: graphic design → photography → QA → frontend → backend → AWS → platform engineering.
 - Education: HyperionDev full stack bootcamp. Self-taught across hardware, networking, design, financial analysis.
 
-## Production Systems Built Solo
+## What he actually does
 
-### Competitive Gaming Platform (GG Marshal)
-Tournament management for Call of Duty esports communities. Deployed on AWS, operational with real users.
+I co-engineer systems that turn product configuration into production delivery. At Inner Reality that has meant building across the campaign builder, backend workflow orchestration, asset and moderation pipelines, AWS serverless infrastructure, status and notification flows, and analytics surfaces that make campaigns operable after launch. Strongest when the job is not purely frontend or purely backend, but the messy bit in the middle where product, platform, and delivery all meet.
+
+## Production Systems
+
+### Self-Serve Campaign Platform (Inner Reality Limited)
+Co-engineered with the CTO. A self-serve campaign platform for branded gamified experiences spanning builder UX, template-driven campaign setup, asset handling and moderation, serverless submission and processing workflows (Step Functions), campaign customisation through backend actions (Virtuoso), status tracking, notifications, and standard plus advanced analytics. Vue frontend, S3-backed submissions, poly-repo platform surface. Product-facing on the surface, platform-shaped underneath.
+
+### Question Delivery and Validation Service (Inner Reality Limited)
+Backend service: S3-backed question delivery, server-side validation, campaign-level configuration. Moved quiz logic from client to secure backend so gameplay behaviour could be controlled more safely and consistently.
+
+### WhatsApp Integration Architecture (Inner Reality Limited)
+Infobip-based WhatsApp chatbot: session correlation, webhook routing, capability exposure patterns to make conversational features easier to integrate cleanly.
+
+### Competitive Gaming Platform (GG Marshal) — solo project
+Tournament management for Call of Duty esports communities. Deployed on AWS, operational with real users. Built and deployed entirely solo.
 - 4 Lambda functions: Discord interaction handler (3,172 lines), portal API (4,419 lines), OCR score validator, report generator
 - React portal: 15 pages, role-based access for 6 role tiers, dark theme, JWT auth via Discord
 - DynamoDB single-table design with GSI, 20+ entity types
@@ -26,26 +39,17 @@ Tournament management for Call of Duty esports communities. Deployed on AWS, ope
 - CDK infrastructure: full stack defined in code
 - Estimated monthly cost at scale: ~$3.18/month for OCR pipeline serving 640 submissions
 
-### Campaign Creator (Inner Reality Limited)
-Enterprise gamification and loyalty platform with augmented reality and geofencing. Self-service campaign builder with voucher management, asset customisation, reusable templates.
-
-### Question Orchestration Service (Inner Reality Limited)
-Backend service: S3-backed question delivery, server-side validation, per-campaign configuration. Moved quiz logic from client to secure backend.
-
-### WhatsApp Integration Architecture (Inner Reality Limited)
-Infobip-based WhatsApp chatbot: session correlation, webhook routing, conversational interfaces.
-
 ### Transcription Tool (personal project)
 AI system for live professional conversations: transcription, task extraction, ticket creation. Integrates with Teams, Jira, MCP servers. Privacy-first local operation.
 
 ## Technical Stack
 
-- Cloud: AWS Lambda, DynamoDB, S3, CDK, CloudFront, API Gateway, Textract, SSM Parameter Store, EventBridge, IAM
+- Cloud: AWS Lambda, DynamoDB, S3, CDK, CloudFront, API Gateway, Textract, SSM Parameter Store, EventBridge, IAM, Step Functions
 - Languages: TypeScript, JavaScript, Node.js, Python
-- Frontend: React, Vite, Tailwind CSS
+- Frontend: React, Vue, Vite, Tailwind CSS
 - Integrations: Discord API, WhatsApp/Infobip, Stripe, Paystack, Claude API (Anthropic)
 - Tools: Sharp, Tesseract.js, Git, GitHub
-- Patterns: serverless design, single-table DynamoDB, infrastructure-as-code, webhook-driven systems, JWT/HMAC auth, hybrid OCR pipelines, role-based access control
+- Patterns: serverless design, single-table DynamoDB, infrastructure-as-code, webhook-driven systems, JWT/HMAC auth, hybrid OCR pipelines, role-based access control, workflow orchestration (Step Functions)
 
 ## Availability
 
